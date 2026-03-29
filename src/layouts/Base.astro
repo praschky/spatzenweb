@@ -9,12 +9,10 @@ import Header from "@/partials/Header.astro";
 import "@/styles/main.css";
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
-import {
-  GoogleTagmanager,
-  GoogleTagmanagerNoscript,
-} from "@digi4care/astro-google-tagmanager";
 
 const lang = getLangFromUrl(Astro.url);
+const gtmId = config.google_tag_manager.gtm_id;
+const gtmEnabled = config.google_tag_manager.enable;
 
 // font families - extract font names for Font component (filter out type keys)
 const fontEntries = Object.entries(theme.fonts.font_family).filter(
@@ -37,10 +35,21 @@ const { title, meta_title, description, image, noindex, canonical } =
 <!doctype html>
 <html lang={lang}>
   <head>
-    <!-- google tag manager -->
+    <!-- google tag manager (inline; avoids peer conflict with Astro 6) -->
     {
-      config.google_tag_manager.enable && (
-        <GoogleTagmanager id={config.google_tag_manager.gtm_id} />
+      gtmEnabled && (
+        <script is:inline define:vars={{ gtmId }}>
+          (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+            var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s),
+              dl = l != "dataLayer" ? "&l=" + l : "";
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+            f.parentNode.insertBefore(j, f);
+          })(window, document, "script", "dataLayer", gtmId);
+        </script>
       )
     }
 
@@ -162,10 +171,17 @@ const { title, meta_title, description, image, noindex, canonical } =
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    {/* google tag manager noscript */}
     {
-      config.google_tag_manager.enable && (
-        <GoogleTagmanagerNoscript id={config.google_tag_manager.gtm_id} />
+      gtmEnabled && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+            title="Google Tag Manager"
+          />
+        </noscript>
       )
     }
 
