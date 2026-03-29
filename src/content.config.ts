@@ -172,15 +172,25 @@ const aboutCollection = defineCollection({
         bg_color: z.string(),
       }),
       metrics: z.array(
-        z.object({
-          title: z.string().optional(),
-          counter: z.object({
-            count: z.string(),
-            count_suffix: z.string(),
-            count_prefix: z.string(),
-            count_duration: z.number(),
-          }),
-        }),
+        z
+          .object({
+            title: z.string().optional(),
+            static_value: z.string().optional(),
+            counter: z
+              .object({
+                count: z.string(),
+                count_suffix: z.string(),
+                count_prefix: z.string(),
+                count_duration: z.number(),
+              })
+              .optional(),
+          })
+          .refine(
+            (m) =>
+              (m.static_value != null && m.static_value.length > 0) ||
+              m.counter != null,
+            { message: "About numbers_banner metric needs static_value or counter" },
+          ),
       ),
     }),
     impact_results: z.object({

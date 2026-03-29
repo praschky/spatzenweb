@@ -56,32 +56,16 @@ numbers_banner:
     bg_color: "bg-primary"
   metrics:
     - title: "Gegründet – seit über 17 Jahren in Melbourne"
-      counter:
-        count: "2007"
-        count_suffix: ""
-        count_prefix: ""
-        count_duration: 5
+      static_value: "2007"
 
     - title: "Schüler:innen im Spatzen- und Falkenprogramm"
-      counter:
-        count: "40"
-        count_suffix: "+"
-        count_prefix: ""
-        count_duration: 2
+      static_value: "40+"
 
     - title: "Unterrichtsstunden Deutsch pro Woche"
-      counter:
-        count: "5"
-        count_suffix: ""
-        count_prefix: "~"
-        count_duration: 1
+      static_value: "~5"
 
     - title: "Muttersprachliche, vollausgebildete Lehrkräfte"
-      counter:
-        count: "2"
-        count_suffix: ""
-        count_prefix: ""
-        count_duration: 0.5
+      static_value: "2"
 
 impact_results:
   enable: true
