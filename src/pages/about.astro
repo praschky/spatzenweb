@@ -1,0 +1,227 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import Features from "@/components/Features.astro";
+import ImpactResults from "@/components/ImpactResults.astro";
+import Testimonial from "@/partials/Testimonial.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+import TeamCard from "@/components/TeamCard.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+
+const aboutIndex = await getListPage("about", "-index");
+if(aboutIndex.data.draft){
+  return Astro.redirect("/404");
+}
+const {
+  title,
+  description,
+  image,
+  badge,
+  button,
+  features,
+  numbers_banner,
+  impact_results,
+  brands,
+  team,
+} = aboutIndex.data;
+---
+
+<Base {...aboutIndex.data}>
+  <section class="section-lg">
+    <div class="container">
+      {/* section title   */}
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-between items-center max-lg:text-center"
+      >
+        <div class="lg:col-7">
+          <TitleBadge
+            icon={badge.icon}
+            label={badge.label}
+            bg_color={badge.bg_color}
+            isCenter={false}
+          />
+          <h2 class="py-4 h1" set:html={markdownify(title || "")} />
+        </div>
+
+        <div class="lg:col-5">
+          <p class="text-balance" set:html={markdownify(description || "")} />
+
+          {
+            button?.enable && (
+              <a href={button.link} class="btn btn-primary mt-4">
+                {button.label}
+              </a>
+            )
+          }
+        </div>
+
+        <ImageMod
+          src={image!}
+          alt={title || "About Image"}
+          width={1280}
+          height={720}
+          class="w-full rounded-4xl pt-12"
+          format="webp"
+          loading={"eager"}
+        />
+      </div>
+
+      <!-- Brand Logos -->
+      {
+        brands.enable && (
+          <div
+            data-aos="fade-up-sm"
+            data-aos-delay="150"
+            class="pt-10 space-y-6"
+          >
+            <h2
+              class="text-center h4"
+              set:html={markdownify(brands.title || "")}
+            />
+            <div class="swiper brand-slider bg-dark/2 py-8! rounded-2xl">
+              <div class="swiper-wrapper">
+                {brands?.logos?.map((item) => (
+                  <div class="swiper-slide w-fit! border-r pr-6 border-border">
+                    <ImageMod
+                      src={item}
+                      alt="brand"
+                      width={0}
+                      height={32}
+                      class="w-full h-8 grayscale opacity-70"
+                      format="webp"
+                      loading={"lazy"}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      <!-- Features section  -->
+      <Features features={features} />
+    </div>
+  </section>
+
+  {
+    numbers_banner.enable && (
+      <section class="section pt-0">
+        <div class="container">
+          {/* Section Title */}
+          <div
+            data-aos="fade-up-sm"
+            data-aos-delay="150"
+            class="row justify-center"
+          >
+            <div class="col-11 lg:col-7">
+              {numbers_banner.badge.enable && (
+                <TitleBadge
+                  icon={numbers_banner.badge.icon}
+                  label={numbers_banner.badge.label}
+                  bg_color={numbers_banner.badge.bg_color}
+                />
+              )}
+              <h2
+                class="py-4 text-center"
+                set:html={markdownify(numbers_banner.title || "")}
+              />
+              <p
+                class="text-center text-balance"
+                set:html={markdownify(numbers_banner.description || "")}
+              />
+            </div>
+          </div>
+
+          <NumbersBanner
+            numbers_banner={numbers_banner}
+            bgColor="bg-tertiary/60"
+          />
+
+          <ImpactResults impactResults={impact_results} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section pt-0">
+    <div class="container">
+      {/* Section Title */}
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-center"
+      >
+        <div class="col-10 lg:col-7">
+          {
+            team.badge.enable && (
+              <TitleBadge
+                icon={team.badge.icon}
+                label={team.badge.label}
+                bg_color={team.badge.bg_color}
+              />
+            )
+          }
+
+          <h2
+            class="py-4 text-center"
+            set:html={markdownify(team.title || "")}
+          />
+          <p
+            class="text-center text-balance"
+            set:html={markdownify(team.description || "")}
+          />
+        </div>
+      </div>
+
+      <div class="pt-14">
+        <div class="row g-4">
+          {
+            team.members?.map((member, i) => (
+              <div class="col-10 sm:col-6 md:col-4 lg:col-3 mx-auto">
+                <TeamCard member={member} index={i} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Testimonial />
+  <CallToActionSecondary />
+</Base>
+
+<script>
+import { Swiper } from "swiper";
+import "swiper/css";
+import { Autoplay } from "swiper/modules";
+
+  document.addEventListener("astro:page-load", () => {
+    new Swiper(".brand-slider", {
+      modules: [Autoplay],
+      spaceBetween: 40,
+      loop: true,
+      centeredSlides: true,
+      speed: 8000,
+      allowTouchMove: false,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        0: {
+          slidesPerView: "auto",
+        },
+        700: {
+          slidesPerView: 5,
+        },
+      },
+    });
+  });
+</script>

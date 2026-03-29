@@ -1,0 +1,94 @@
+---
+// Erfahrungsberichte – German URL for reviews/testimonials
+import ReviewCard from "@/components/ReviewCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+
+const reviewsIndex = await getListPage("reviews", "-index");
+const reviewsSection = await getListPage("reviewsSection", "reviews-section");
+---
+
+<Base {...reviewsIndex.data}>
+  <section class="section-lg">
+    <div class="container">
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-6">
+          {
+            reviewsIndex.data.badge.enable && (
+              <TitleBadge
+                icon={reviewsIndex.data.badge.icon}
+                label={reviewsIndex.data.badge.label}
+                bg_color={reviewsIndex.data.badge.bg_color}
+              />
+            )
+          }
+          <h2
+            class="py-4 text-center"
+            set:html={markdownify(reviewsIndex.data.title || "")}
+          />
+          <p
+            class="text-center text-balance"
+            set:html={markdownify(reviewsIndex.data.description || "")}
+          />
+        </div>
+      </div>
+
+      {reviewsSection.data.enable && (
+        <div class="pt-14">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 h-auto">
+            {
+              reviewsSection.data?.reviews?.map((review, i) => (
+                <ReviewCard review={review} index={i} />
+              ))
+            }
+          </div>
+        </div>
+      )}
+
+      <!-- Extended testimonials -->
+      <div class="pt-16 row justify-center">
+        <div class="lg:col-9">
+          <div class="content">
+            <h2>Erfahrungsberichte unserer Familien</h2>
+
+            <h3>Familie M. – Jetzt wieder in Deutschland</h3>
+            <p>
+              Unsere zwei Kinder (damals 5 und 7 Jahre alt) kamen ohne Englischkenntnisse nach Australien.
+              Beide besuchten gleichzeitig die Toorak Primary School und die Spatzenschule.
+            </p>
+            <p>
+              „Den Kindern wird das Gefühl gegeben, dass sie trotz der anfangs fehlenden Sprachkenntnisse
+              keine Belastung sondern eine Bereicherung sind. Die Spatzenschule gibt fast wie eine
+              <em>‚Insel im Schulalltag'</em> noch zusätzlich Halt."
+            </p>
+            <p>
+              Die direkte Integration in australische Klassen erwies sich als viel effektiver als
+              der Besuch einer Sprachschule. Der lange Mittagspause (1 Stunde) half beim Spracherwerb.
+            </p>
+
+            <h3>Martina O. – Deutschlandausgebildete Lehrerin</h3>
+            <p>
+              „Das australische Schulsystem ist viel entspannter und stressfreier" als das deutsche.
+            </p>
+            <p>
+              Im deutschen System: 45-Minuten-Unterricht, Hetze, um bis 13:30 Uhr den Lehrplan
+              abzuschließen. Im australischen System: 5 Stunden Unterricht (entspricht 6 deutschen
+              Stunden), Schulschluss um 15:30 Uhr. Ausgedehnte Pausen (11:00–11:30 Uhr; 13:00–14:00 Uhr)
+              ermöglichen Spiel und Entspannung.
+            </p>
+            <p>
+              Der Unterrichtsansatz ist abwechslungsreich, kindgerecht und weniger druckvoll.
+              Der Gesamtlehrplan ist vergleichbar – die australische Umsetzung ist einfach
+              <em>„ungestresster"</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary isNoSectionTop />
+</Base>

@@ -1,0 +1,52 @@
+---
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const call_to_action = await getListPage(
+  "ctaTertiary",
+  "call-to-action-tertiary"
+);
+if (!call_to_action.data.enable) {
+  return null;
+}
+---
+
+<section class="section pt-0">
+  <div class="container">
+    {/* bg-[url(/images/homepage/cta-bg-3.png)] */}
+    <div
+      class={`bg-[url(${call_to_action.data.image})] bg-cover rounded-4xl overflow-hidden bg-center bg-no-repeat`}
+    >
+      <div class="py-24 px-10 lg:py-32 lg:px-14">
+        <div class="row">
+          <div class="lg:col-6">
+            <div
+              data-aos="zoom-in-sm"
+              data-aos-delay="150"
+              class="bg-body p-10 rounded-4xl max-lg:text-center"
+            >
+              <h2
+                set:html={markdownify(call_to_action.data.title)}
+                class="mb-6 h4 font-semibold text-balance leading-[50px]"
+              />
+              <p
+                set:html={markdownify(call_to_action.data.description)}
+                class="mb-12 text-balance"
+              />
+              {
+                call_to_action.data.button.enable && (
+                  <a
+                    class="btn btn-primary w-full text-center"
+                    href={call_to_action.data.button.link}
+                  >
+                    {call_to_action.data.button.label}
+                  </a>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

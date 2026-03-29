@@ -1,0 +1,133 @@
+{
+  "main": [
+    {
+      "name": "Über uns",
+      "url": "/ueber-uns"
+    },
+    {
+      "name": "Programme",
+      "url": "/programme",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Spatzenprogramm",
+          "url": "/programme/spatzenprogramm"
+        },
+        {
+          "name": "Falkenprogramm",
+          "url": "/programme/falkenprogramm"
+        }
+      ]
+    },
+    {
+      "name": "Einschreibung",
+      "url": "/einschreibung"
+    },
+    {
+      "name": "Kalender",
+      "url": "/kalender"
+    },
+    {
+      "name": "Schulrichtlinien",
+      "url": "/schulrichtlinien"
+    },
+    {
+      "name": "Erfahrungsberichte",
+      "url": "/erfahrungsberichte"
+    },
+    {
+      "name": "Kontakt",
+      "url": "/kontakt"
+    }
+  ],
+  "main_en": [
+    {
+      "name": "About Us",
+      "url": "/en/about"
+    },
+    {
+      "name": "Programs",
+      "url": "/en/programs",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Sparrows Program",
+          "url": "/en/programs/sparrows"
+        },
+        {
+          "name": "Falcons Program",
+          "url": "/en/programs/falcons"
+        }
+      ]
+    },
+    {
+      "name": "Enrolment",
+      "url": "/en/enrolment"
+    },
+    {
+      "name": "Calendar",
+      "url": "/en/calendar"
+    },
+    {
+      "name": "Guidelines",
+      "url": "/en/guidelines"
+    },
+    {
+      "name": "Experiences",
+      "url": "/en/experiences"
+    },
+    {
+      "name": "Contact",
+      "url": "/en/contact"
+    }
+  ],
+  "footer": [
+    {
+      "title": "Programme",
+      "children": [
+        {
+          "name": "Spatzenprogramm",
+          "url": "/programme/spatzenprogramm"
+        },
+        {
+          "name": "Falkenprogramm",
+          "url": "/programme/falkenprogramm"
+        },
+        {
+          "name": "Einschreibung",
+          "url": "/einschreibung"
+        }
+      ]
+    },
+    {
+      "title": "Informationen",
+      "children": [
+        {
+          "name": "Über uns",
+          "url": "/ueber-uns"
+        },
+        {
+          "name": "Kalender & Neuigkeiten",
+          "url": "/kalender"
+        },
+        {
+          "name": "Erfahrungsberichte",
+          "url": "/erfahrungsberichte"
+        }
+      ]
+    },
+    {
+      "title": "Rechtliches & Kontakt",
+      "children": [
+        {
+          "name": "Schulrichtlinien",
+          "url": "/schulrichtlinien"
+        },
+        {
+          "name": "Kontakt",
+          "url": "/kontakt"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+---
+// Kalender & Neuigkeiten page
+import TitleBadge from "@/components/TitleBadge.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import Base from "@/layouts/Base.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+
+const events2026 = [
+  {
+    month: "Januar 2026",
+    items: [
+      { date: "27.01.2026", title: "Erster Schultag an der Toorak Primary School" },
+      { date: "02.02.2026", title: "Schulbeginn Spatzenschule für Klassen 2–6" },
+      { date: "26.02.2026", title: "Einschulungsfeier und Schulbeginn für die Preps" },
+      { date: "Feb 2026", title: "Welcome Picnic Toorak Primary School" },
+    ],
+  },
+  {
+    month: "März 2026",
+    items: [
+      { date: "März 2026", title: "Allgemeine Mitgliederversammlung – alle Eltern sind eingeladen" },
+    ],
+  },
+  {
+    month: "Mai 2026",
+    items: [
+      { date: "Mai 2026", title: "Deutsches Filmfest Melbourne – gemeinsamer Schulausflug mit Spatzen und Falken" },
+    ],
+  },
+  {
+    month: "Juni 2026",
+    items: [
+      { date: "Juni 2026", title: "Jährliches Laternenfest – gemeinsames Basteln, Singen und Laternenumzug" },
+    ],
+  },
+  {
+    month: "August 2026",
+    items: [
+      { date: "August 2026", title: "Ausstellung AGTV Kunst und Kultur Wettbewerb – Präsentation der Kunstwerke" },
+    ],
+  },
+  {
+    month: "Dezember 2026",
+    items: [
+      { date: "Dez 2026", title: "Weihnachtsmarkt Deutsche Kirche Melbourne – Teilnahme aller Schüler:innen" },
+      { date: "Dez 2026", title: "Nikolausfeier und Jahresabschluss – gemeinsames Feiern und Rückblick" },
+      { date: "Dez 2026", title: "Songs of Celebration Toorak Primary School" },
+    ],
+  },
+];
+
+const calendarImages = [
+  "/images/spatzenschule/calendar1.jpg",
+  "/images/spatzenschule/calendar3.jpg",
+  "/images/spatzenschule/calendar4.jpg",
+  "/images/spatzenschule/calendar5.jpg",
+  "/images/spatzenschule/calendar6.jpg",
+  "/images/spatzenschule/calendar7.jpg",
+  "/images/spatzenschule/calendar8.jpg",
+];
+---
+
+<Base
+  title="Kalender & Neuigkeiten 2026"
+  meta_title="Kalender 2026 – Spatzenschule Melbourne"
+  description="Alle wichtigen Termine der Spatzenschule Melbourne für 2026: Schulbeginn, Laternenfest, Filmfest, Weihnachtsmarkt und mehr."
+>
+  <section class="section-lg">
+    <div class="container">
+      <!-- Section Title -->
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge
+            icon="FaCalendarDays"
+            label="Kalender 2026"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">Kalender & Neuigkeiten</h2>
+          <p class="text-center text-balance">
+            Das Schuljahr der Spatzenschule ist nicht nur voller Lern- und
+            Kulturaktivitäten – über das Jahr verteilt finden auch mehrere
+            informelle Treffen statt, z. B. in Restaurants oder im Deutschen Club.
+          </p>
+        </div>
+      </div>
+
+      <!-- Intro text -->
+      <div class="pt-10 row justify-center">
+        <div class="lg:col-8">
+          <div class="bg-dark/2 rounded-2xl p-8" data-aos="fade-up-sm">
+            <p>
+              Außerdem organisieren wir pro Term ein <strong>deutsches Mittagsessen</strong> für die
+              gesamte Schulgemeinschaft der Toorak Primary School – immer sehr beliebt! Die
+              Einnahmen dienen als Fundraiser für die Spatzenschule und tragen dazu bei, unsere
+              Programme und Projekte weiterhin hochwertig zu gestalten.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calendar events -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Events list -->
+        <div class="lg:col-7" data-aos="fade-up-sm" data-aos-delay="100">
+          <h3 class="h4 font-semibold mb-8">Jahresüberblick 2026</h3>
+          <div class="space-y-8">
+            {
+              events2026.map((group) => (
+                <div>
+                  <h4 class="text-primary font-semibold mb-4 pb-2 border-b border-border">
+                    {group.month}
+                  </h4>
+                  <div class="space-y-4">
+                    {group.items.map((event) => (
+                      <div class="flex gap-4 items-start">
+                        <div class="bg-primary/10 rounded-xl px-3 py-2 text-xs font-semibold text-primary shrink-0 min-w-[90px] text-center">
+                          {event.date}
+                        </div>
+                        <p class="text-text-dark mt-1">{event.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Image gallery -->
+        <div class="lg:col-5" data-aos="fade-up-sm" data-aos-delay="200">
+          <div class="grid grid-cols-2 gap-3">
+            {
+              calendarImages.slice(0, 6).map((img, i) => (
+                <div class={`rounded-2xl overflow-hidden ${i === 0 ? "col-span-2" : ""}`}>
+                  <ImageMod
+                    src={img}
+                    alt={`Spatzenschule Veranstaltung ${i + 1}`}
+                    width={400}
+                    height={i === 0 ? 250 : 180}
+                    class="w-full object-cover"
+                    format="webp"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cultural highlights -->
+  <section class="section pt-0">
+    <div class="container">
+      <div data-aos="fade-up-sm" class="row justify-center">
+        <div class="lg:col-9">
+          <TitleBadge
+            icon="FaStar"
+            label="Kulturelle Highlights"
+            bg_color="bg-tertiary"
+          />
+          <h2 class="py-4 text-center">Unsere Jahreshighlights</h2>
+        </div>
+      </div>
+
+      <div class="pt-10 row g-4">
+        {
+          [
+            {
+              icon: "🎥",
+              title: "Deutsches Filmfest Melbourne",
+              desc: "Gemeinsamer Schulausflug für Spatzen und Falken – Kino auf Deutsch mitten in Melbourne.",
+              img: "/images/spatzenschule/calendar3.jpg",
+            },
+            {
+              icon: "🏮",
+              title: "Jährliches Laternenfest",
+              desc: "Basteln, Singen und Laternenumzug – ein Fest, das Kindern und Eltern gleichermaßen Freude bereitet.",
+              img: "/images/spatzenschule/calendar4.jpg",
+            },
+            {
+              icon: "🎨",
+              title: "AGTV Kunst & Kultur Wettbewerb",
+              desc: "Unsere Schüler:innen nehmen am jährlichen Wettbewerb der deutschsprachigen Schulen Australiens teil.",
+              img: "/images/spatzenschule/calendar5.jpg",
+            },
+            {
+              icon: "🎄",
+              title: "Weihnachtsmarkt & Nikolausfeier",
+              desc: "Deutsche Weihnachtstradition in Melbourne – Nikolausfeier und der Deutsche Weihnachtsmarkt.",
+              img: "/images/spatzenschule/calendar6.jpg",
+            },
+          ].map((highlight) => (
+            <div class="md:col-6 lg:col-3" data-aos="fade-up-sm">
+              <div class="bg-dark/2 rounded-2xl overflow-hidden h-full">
+                <ImageMod
+                  src={highlight.img}
+                  alt={highlight.title}
+                  width={300}
+                  height={200}
+                  class="w-full object-cover"
+                  format="webp"
+                  loading="lazy"
+                />
+                <div class="p-5">
+                  <div class="text-2xl mb-2">{highlight.icon}</div>
+                  <h4 class="font-semibold mb-2">{highlight.title}</h4>
+                  <p class="text-sm text-text-dark">{highlight.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary />
+</Base>

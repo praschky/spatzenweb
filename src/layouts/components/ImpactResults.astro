@@ -1,0 +1,126 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import Counter from "../functional-component/Counter";
+import ImageMod from "./ImageMod.astro";
+
+type Props = {
+  impactResults:
+    | CollectionEntry<"homepage">["data"]["impact_results"]
+    | CollectionEntry<"about">["data"]["impact_results"];
+};
+
+const { impactResults } = Astro.props;
+---
+
+<div class="row justify-center">
+  <div class="lg:col-11">
+    <div class="pt-14">
+      {
+        impactResults?.results.map((item, index) => (
+          <div class="row justify-center lg:justify-between items-center g-5 mb-[6rem] last:mb-0">
+            <div
+              data-aos="fade-up-sm"
+              data-aos-delay="100"
+              class={`col-11 lg:col-6 order-2 ${index % 2 === 0 ? "lg:order-2" : "lg:order-1"}`}
+            >
+              <div>
+                <p
+                  set:html={markdownify(item.subtitle)}
+                  class="px-4 py-1 rounded-full bg-transparent border border-border text-xs mb-4 w-fit max-lg:mx-auto"
+                />
+                <h2
+                  set:html={markdownify(item.title || "")}
+                  class="lg:h1 mb-4 h4 font-semibold tracking-wide max-lg:text-center"
+                />
+                <p
+                  set:html={markdownify(item.description || "")}
+                  class="mb-12 max-lg:text-center"
+                />
+
+                {item?.metrics && item?.metrics.length > 0 && (
+                  <div class="flex rounded-2xl border border-border overflow-hidden">
+                    {item?.metrics?.map((metric) => (
+                      <div class="flex-1 flex flex-col items-center lg:items-start py-5 px-4 border-r last:border-r-0 border-border">
+                        <div
+                          class={`w-9 h-9 ${metric.bg_color} rounded-full flex items-center justify-center mb-3`}
+                        >
+                          {"icon" in metric && (
+                            <DynamicIcon
+                              icon={metric.icon}
+                              className="text-white text-sm"
+                            />
+                          )}
+                        </div>
+                        <p
+                          class="text-xs mb-3"
+                          set:html={markdownify(metric.title)}
+                        />
+                        <p class="h4 font-medium text-dark">
+                          {"static_value" in metric && metric.static_value ? (
+                            metric.static_value
+                          ) : (
+                            <Counter
+                              client:only="react"
+                              count={metric.counter.count}
+                              suffix={metric.counter.count_suffix}
+                              prefix={metric.counter.count_prefix}
+                              duration={metric.counter.count_duration}
+                            />
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {item?.button?.enable && (
+                  <a href={item.button.link} class="btn btn-primary mt-2">
+                    {item.button.label}
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <div
+              data-aos="fade-up-sm"
+              data-aos-delay="100"
+              class={`col-11 lg:col-6 order-1 ${index % 2 !== 0 ? "lg:order-2" : "lg:order-1"}`}
+            >
+              <div
+                class:list={[
+                  "bg-transparent rounded-3xl flex flex-col relative",
+                  index === 0 &&
+                    "mx-auto w-full max-w-[min(92vw,36rem)] lg:max-w-[34rem]",
+                ]}
+              >
+                <ImageMod
+                  src={item.image!}
+                  alt={item.title!}
+                  width={index === 0 ? 720 : 0}
+                  height={index === 0 ? 540 : 0}
+                  class:list={[
+                    "rounded-3xl z-10 w-full object-cover",
+                    index === 0
+                      ? "max-h-[min(68vh,420px)] lg:max-h-[400px]"
+                      : "size-full",
+                  ]}
+                />
+                {item.image_2 && (
+                  <ImageMod
+                    src={item.image_2}
+                    alt={item.title!}
+                    width={222}
+                    height={223}
+                    class={`rounded-3xl max-md:hidden absolute bottom-10 z-20 ${index % 2 !== 0 ? "left-10" : "right-10"}`}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

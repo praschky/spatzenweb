@@ -1,0 +1,117 @@
+---
+// English about page – /en/about
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import Features from "@/components/Features.astro";
+import ImpactResults from "@/components/ImpactResults.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { render } from "astro:content";
+
+const aboutIndex = await getListPage("about", "-index");
+const {
+  image,
+  features,
+  numbers_banner,
+  impact_results,
+} = aboutIndex.data;
+const { Content } = await render(aboutIndex);
+---
+
+<Base
+  title="About Us – Spatzenschule Melbourne"
+  meta_title="About Spatzenschule Melbourne – German Native Speaker Program"
+  description="Spatzenschule Melbourne was founded in 2007 and has grown into one of Melbourne's leading German native speaker programs for children from Prep to Year 12."
+>
+  <section class="section-lg">
+    <div class="container">
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-between items-center max-lg:text-center"
+      >
+        <div class="lg:col-7">
+          <TitleBadge
+            icon="FaSchool"
+            label="About Us"
+            bg_color="bg-secondary"
+            isCenter={false}
+          />
+          <h2 class="py-4 h1">Our Story – in Melbourne since 2007</h2>
+        </div>
+
+        <div class="lg:col-5">
+          <p class="text-balance">
+            Spatzenschule Melbourne was founded in 2007 and has grown into one of
+            Melbourne's leading German native speaker programs for children from Prep
+            to Year 12.
+          </p>
+        </div>
+
+        <ImageMod
+          src={image!}
+          alt="About Spatzenschule Melbourne"
+          width={1280}
+          height={720}
+          class="w-full rounded-4xl pt-12"
+          format="webp"
+          loading={"eager"}
+        />
+      </div>
+
+      <Features features={features} />
+    </div>
+  </section>
+
+  {
+    numbers_banner.enable && (
+      <section class="section pt-0">
+        <div class="container">
+          <div
+            data-aos="fade-up-sm"
+            data-aos-delay="150"
+            class="row justify-center"
+          >
+            <div class="col-11 lg:col-7">
+              {numbers_banner.badge.enable && (
+                <TitleBadge
+                  icon={numbers_banner.badge.icon}
+                  label={numbers_banner.badge.label}
+                  bg_color={numbers_banner.badge.bg_color}
+                />
+              )}
+              <h2
+                class="py-4 text-center"
+                set:html={markdownify(numbers_banner.title || "")}
+              />
+              <p
+                class="text-center text-balance"
+                set:html={markdownify(numbers_banner.description || "")}
+              />
+            </div>
+          </div>
+
+          <NumbersBanner numbers_banner={numbers_banner} bgColor="bg-tertiary/60" />
+          <ImpactResults impactResults={impact_results} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-9">
+          <div class="content">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary />
+</Base>

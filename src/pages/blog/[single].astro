@@ -1,0 +1,120 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Disqus from "@/helpers/Disqus";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import similarItems from "@/lib/utils/similarItems";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import { render } from "astro:content";
+
+const BLOG_FOLDER = "blog";
+const posts = await getSinglePage(BLOG_FOLDER);
+
+export async function getStaticPaths() {
+  const BLOG_FOLDER = "blog";
+  const posts = await getSinglePage(BLOG_FOLDER);
+
+  const paths = posts.map((post) => ({
+    params: {
+      single: post.id,
+    },
+    props: { post },
+  }));
+  return paths;
+}
+
+const { post } = Astro.props;
+const { title, meta_title, description, image, badge, categories } = post.data;
+const { Content } = await render(post);
+const similarPosts = similarItems(post, posts);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <section class="section-lg pb-0">
+    <div class="container">
+      <article data-aos="fade-up-sm" data-aos-delay="150">
+        <TitleBadge
+          icon={"FaAngleRight"}
+          label={categories?.map((category) => category).join(", ")}
+          bg_color={(badge && badge.bg_color) || "bg-secondary"}
+          isCenter={false}
+        />
+        <h1
+          set:html={markdownify(title!)}
+          class="mb-8 mt-4 font-semibold text-balance"
+        />
+
+        {
+          image && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={600}
+                width={1280}
+                alt={title!}
+                class="w-full aspect-[16/7.5] object-cover  object-center rounded-4xl"
+                format="webp"
+                loading={"eager"}
+              />
+            </div>
+          )
+        }
+
+        <div class="row justify-center">
+          <div class="lg:col-10">
+            <div class="content mb-10">
+              <Content />
+            </div>
+
+            <Disqus className="pt-10" client:load />
+          </div>
+        </div>
+      </article>
+
+      <!-- Related posts -->
+      {
+        similarPosts.length > 0 && (
+          <div class="section">
+            {/* Section Title */}
+            <div
+              data-aos="fade-up-sm"
+              data-aos-delay="100"
+              class="row justify-center"
+            >
+              <div class="col-10 lg:col-6">
+                {badge && badge.enable && (
+                  <TitleBadge
+                    icon={badge.icon}
+                    label={badge.label}
+                    bg_color={badge.bg_color}
+                  />
+                )}
+                <h2 class="pt-4 text-center" set:html={"Read Other Articles"} />
+              </div>
+            </div>
+
+            <div class="pt-14">
+              <div class="row g-4 justify-center">
+                {similarPosts.map((post) => (
+                  <div class="md:col-5">
+                    <BlogCard data={post} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <CallToActionSecondary isNoSectionTop={true} />
+</Base>

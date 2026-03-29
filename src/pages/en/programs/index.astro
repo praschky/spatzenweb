@@ -1,0 +1,173 @@
+---
+// English programs index – /en/programs
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+
+const FOLDER = "programs";
+const programsIndex = await getListPage(FOLDER, "-index");
+const { numbers_banner } = programsIndex.data;
+const programs = await getSinglePage(FOLDER);
+const featuredProgram = programs.filter((p) => p?.data?.featured).slice(0, 1);
+
+// English slug map: content id → English URL slug
+const enSlugMap: Record<string, string> = {
+  spatzenprogramm: "sparrows",
+  falkenprogramm: "falcons",
+};
+---
+
+<Base
+  title="Programs – Spatzenschule Melbourne"
+  meta_title="Programs – Spatzenschule Melbourne"
+  description="Two specialised German native speaker programs for children and young people in Melbourne: the Sparrows Program (Prep–Year 6) and the Falcons Program (Year 7–12)."
+>
+  <section class="section-lg">
+    <div class="container">
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-between items-center max-lg:text-center"
+      >
+        <div class="lg:col-7">
+          <TitleBadge
+            icon="FaBookOpen"
+            label="Programs"
+            bg_color="bg-secondary"
+            isCenter={false}
+          />
+          <h2 class="py-4 h1">Our Education Programs</h2>
+        </div>
+        <div class="lg:col-5">
+          <p class="text-balance">
+            Two specialised programs for German-speaking children and young people
+            in Melbourne – from Prep to Year 12.
+          </p>
+        </div>
+      </div>
+
+      <!-- Featured program -->
+      <div class="pt-14">
+        {
+          featuredProgram.map((program) => (
+            <div
+              class="rounded-[32px] bg-dark/2 group p-10"
+              data-aos="fade-up-sm"
+              data-aos-delay="200"
+            >
+              <div class="row items-center g-4">
+                <div class="col-11 lg:col-5 mx-auto">
+                  <div class="relative group overflow-hidden rounded-2xl">
+                    <ImageMod
+                      src={program.data.image!}
+                      alt={program.data.title!}
+                      width={500}
+                      height={460}
+                      class="object-cover rounded-2xl w-full group-hover:scale-110 transition duration-700"
+                      format="webp"
+                      loading={"eager"}
+                    />
+                  </div>
+                </div>
+                <div class="col-11 lg:col-6 mx-auto">
+                  {program.data.title && (
+                    <h2
+                      class="h4 font-semibold mb-6"
+                      set:html={markdownify(program.data.title)}
+                    />
+                  )}
+                  {program.body && (
+                    <div
+                      class="line-clamp-3"
+                      set:html={markdownify(program.body, true)}
+                    />
+                  )}
+                  <a
+                    class="btn btn-primary my-8"
+                    href={`/en/programs/${enSlugMap[program.id] ?? program.id}`}
+                    rel="noopener"
+                  >
+                    View Program
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- All programs grid -->
+  <section class="section pt-0">
+    <div class="container">
+      <div data-aos="fade-up-sm" data-aos-delay="150" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge icon="FaGraduationCap" label="All Programs" bg_color="bg-tertiary" />
+          <h2 class="py-4 text-center">All Programs</h2>
+          <p class="text-center text-balance">
+            Choose the program that best suits your child's age and German language level.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-14">
+        <div class="row g-4 max-md:justify-center">
+          {
+            programs?.map((program, i) => {
+              const aosDelay = 100 * (i % 3);
+              const enSlug = enSlugMap[program.id] ?? program.id;
+              return (
+                <div class="md:col-6 lg:col-4" data-aos="fade-up-sm" data-aos-delay={aosDelay}>
+                  <a href={`/en/programs/${enSlug}`} class="block group">
+                    <div class="rounded-2xl overflow-hidden bg-dark/2">
+                      <ImageMod
+                        src={program.data.image!}
+                        alt={program.data.title!}
+                        width={400}
+                        height={280}
+                        class="w-full object-cover group-hover:scale-105 transition duration-500"
+                        format="webp"
+                        loading={"lazy"}
+                      />
+                      <div class="p-6">
+                        {program.data.badge && (
+                          <TitleBadge
+                            icon={program.data.badge.icon}
+                            label={program.data.badge.label}
+                            bg_color={program.data.badge.bg_color}
+                            isCenter={false}
+                          />
+                        )}
+                        <h3 class="mt-3 h5 font-semibold" set:html={markdownify(program.data.title || "")} />
+                        <p class="mt-2 text-sm line-clamp-2" set:html={markdownify(program.data.description || "")} />
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    numbers_banner && numbers_banner.enable && (
+      <section class="section pt-0">
+        <div class="container">
+          <NumbersBanner numbers_banner={numbers_banner} bgColor="bg-secondary" />
+        </div>
+      </section>
+    )
+  }
+
+  <FAQs />
+  <CallToActionSecondary isNoSectionTop={true} />
+</Base>

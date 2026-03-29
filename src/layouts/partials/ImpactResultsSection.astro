@@ -1,0 +1,47 @@
+---
+import ImpactResults from "@/components/ImpactResults.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const homepage = await getListPage("homepage", "-index");
+
+const { isNoSectionTop = false } = Astro.props;
+const { impact_results } = homepage.data;
+---
+
+{
+  impact_results.enable && (
+    <section class={`section ${isNoSectionTop && "pt-0"} pb-0 overflow-hidden`}>
+      <div class="container">
+        {/* section title  */}
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+          class="row justify-center"
+        >
+          <div class="col-10 lg:col-7">
+            {impact_results.badge.enable && (
+              <TitleBadge
+                icon={impact_results.badge.icon}
+                label={impact_results.badge.label}
+                bg_color={impact_results.badge.bg_color}
+              />
+            )}
+
+            <h2
+              class="py-4 text-center"
+              set:html={markdownify(impact_results.title)}
+            />
+            <p
+              class="text-center text-balance"
+              set:html={markdownify(impact_results.description)}
+            />
+          </div>
+        </div>
+
+        <ImpactResults impactResults={impact_results} />
+      </div>
+    </section>
+  )
+}

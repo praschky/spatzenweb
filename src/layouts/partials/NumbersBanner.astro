@@ -1,0 +1,74 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import Counter from "../functional-component/Counter";
+
+type AboutBanner = CollectionEntry<"about">["data"]["numbers_banner"];
+type ProgramMetric = NonNullable<
+  CollectionEntry<"programs">["data"]["numbers_banner"]
+>["metrics"][number];
+
+type Props = {
+  numbers_banner: AboutBanner | (Omit<AboutBanner, "metrics"> & { metrics: ProgramMetric[] });
+  bgColor?: string;
+  /** Sits on top of a hero image: tight padding, two-column grid, no top margin */
+  variant?: "default" | "heroOverlay";
+};
+const { numbers_banner, bgColor, variant = "default" } = Astro.props;
+const isOverlay = variant === "heroOverlay";
+
+const rootClass = isOverlay
+  ? `${bgColor} rounded-2xl p-4 sm:p-5 relative overflow-hidden shadow-lg grid grid-cols-2 gap-x-3 gap-y-2 text-left text-wrap wrap-break-word`
+  : `mt-14 ${bgColor} rounded-4xl p-16 ${numbers_banner.metrics.length < 2 ? "text-center" : "grid justify-start text-left md:grid-cols-2 lg:grid-cols-4"} gap-6 text-wrap wrap-break-word relative overflow-hidden`;
+
+const valueClass = isOverlay
+  ? "text-xl sm:text-2xl font-bold text-text-dark mb-0.5 wrap-break-word overflow-hidden leading-tight"
+  : `${numbers_banner.metrics.length < 2 ? "h1" : "h2 lg:h3"} font-bold text-text-dark mb-2 wrap-break-word overflow-hidden`;
+
+const labelClass = isOverlay
+  ? "text-balance font-medium text-xs sm:text-sm text-text-dark/80 leading-snug"
+  : "text-balance font-medium text-sm text-text-dark/80";
+---
+
+<div
+  data-aos={isOverlay ? undefined : "fade-up-sm"}
+  data-aos-delay={isOverlay ? undefined : "250"}
+  class={rootClass}
+>
+  {/* Circle Background */}
+  {
+    isOverlay ? (
+      <div
+        class="pointer-events-none absolute -bottom-6 -right-6 z-0 size-28 rounded-full bg-body/25 sm:size-36"
+        aria-hidden="true"
+      />
+    ) : (
+      <div
+        class="absolute top-[70%] lg:top-[50%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/30"
+        style="width: 210vw; height: 200vw;"
+      />
+    )
+  }
+  {
+    numbers_banner.metrics?.map((metric) => (
+      <div
+        class={`relative z-10 ${!isOverlay && numbers_banner.metrics.length < 2 && "text-center"}`}
+      >
+        <p class={valueClass}>
+          {"static_value" in metric && metric.static_value ? (
+            <span set:html={markdownify(metric.static_value)} />
+          ) : "counter" in metric && metric.counter ? (
+            <Counter
+              client:only="react"
+              count={metric.counter.count}
+              suffix={metric.counter.count_suffix}
+              prefix={metric.counter.count_prefix}
+              duration={metric.counter.count_duration}
+            />
+          ) : null}
+        </p>
+        <h3 class={labelClass} set:html={markdownify(metric.title || "")} />
+      </div>
+    ))
+  }
+</div>

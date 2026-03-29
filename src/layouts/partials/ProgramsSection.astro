@@ -1,0 +1,56 @@
+---
+import ProgramCard from "@/components/ProgramCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { sortByDate } from "@/lib/utils/sortFunctions";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const sectionData = await getListPage(
+  "programsHomepage",
+  "programs-homepage-section"
+);
+if (!sectionData.data.enable) {
+  return null;
+}
+const programs = sortByDate(await getSinglePage("programs"));
+---
+
+<section class="section pt-0">
+  <div class="container">
+    {/* Section Title */}
+    <div data-aos="fade-up-sm" data-aos-delay="150" class="row justify-center">
+      <div class="col-10 lg:col-8">
+        {
+          sectionData.data.badge && sectionData.data.badge.enable && (
+            <TitleBadge
+              icon={sectionData.data.badge.icon}
+              label={sectionData.data.badge.label}
+              bg_color={sectionData.data.badge.bg_color}
+            />
+          )
+        }
+
+        <h2
+          class="py-4 text-center"
+          set:html={markdownify(sectionData.data.title || "")}
+        />
+        <p
+          class="text-center text-balance"
+          set:html={markdownify(sectionData.data.description || "")}
+        />
+      </div>
+    </div>
+
+    {/*  Programs homepage Section */}
+    <div class="pt-14">
+      <div class="row g-4 max-md:justify-center">
+        {
+          programs?.slice(0, 3).map((program, i) => {
+            const aosDelay = 100 * (i % 3);
+            return <ProgramCard data={program} aosDelay={aosDelay} />;
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+{
+  "site": {
+    "title": "Spatzenschule Melbourne",
+    "base_url": "https://spatzenschule.org.au",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "/images/cropped-Logo-rund.jpeg",
+    "logo_width": "104",
+    "logo_height": "104",
+    "logo_text": "Spatzenschule"
+  },
+
+  "settings": {
+    "sticky_header": true,
+    "pagination": 6,
+    "blog_folder": "blog"
+  },
+
+  "params": {
+    "contact_form_action": "mailto:enrolments.spatzenschule@gmail.com",
+    "footer_description": "Deutsches Muttersprachlerprogramm in Melbourne seit 2007 – für Kinder von Prep bis Year 12.",
+    "copyright": "Copyright © {year} Spatzenschule Melbourne"
+  },
+
+  "navigation_button": {
+    "enable": true,
+    "label": "Jetzt Anmelden",
+    "link": "/einschreibung"
+  },
+
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+
+  "disqus": {
+    "enable": false,
+    "shortname": "",
+    "settings": {}
+  },
+
+  "metadata": {
+    "meta_author": "Spatzenschule Melbourne",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Spatzenschule Melbourne – Deutsches Muttersprachlerprogramm für Kinder von Prep bis Year 12 an der Toorak Primary School."
+  },
+
+  "subscription_in_footer": {
+    "enable": false,
+    "mailchimp_form_action": "",
+    "mailchimp_form_name": ""
+  }
+}

@@ -1,0 +1,220 @@
+---
+// English calendar page – /en/calendar
+import TitleBadge from "@/components/TitleBadge.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import Base from "@/layouts/Base.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+
+const events2026 = [
+  {
+    month: "January 2026",
+    items: [
+      { date: "27 Jan 2026", title: "First day of school at Toorak Primary School" },
+      { date: "2 Feb 2026", title: "Spatzenschule term begins – Years 2–6" },
+      { date: "26 Feb 2026", title: "Enrolment celebration and first day for Prep students" },
+      { date: "Feb 2026", title: "Welcome Picnic – Toorak Primary School" },
+    ],
+  },
+  {
+    month: "March 2026",
+    items: [
+      { date: "March 2026", title: "Annual General Meeting – all parents welcome" },
+    ],
+  },
+  {
+    month: "May 2026",
+    items: [
+      { date: "May 2026", title: "German Film Festival Melbourne – joint school excursion for Spatzen and Falken" },
+    ],
+  },
+  {
+    month: "June 2026",
+    items: [
+      { date: "June 2026", title: "Annual Lantern Festival – crafts, singing and a lantern parade" },
+    ],
+  },
+  {
+    month: "August 2026",
+    items: [
+      { date: "August 2026", title: "AGTV Arts & Culture Competition Exhibition – student artworks on display" },
+    ],
+  },
+  {
+    month: "December 2026",
+    items: [
+      { date: "Dec 2026", title: "German Christmas Market at the German Church Melbourne – all students participate" },
+      { date: "Dec 2026", title: "St Nicholas Celebration & End-of-Year Ceremony" },
+      { date: "Dec 2026", title: "Songs of Celebration – Toorak Primary School" },
+    ],
+  },
+];
+
+const calendarImages = [
+  "/images/spatzenschule/calendar1.jpg",
+  "/images/spatzenschule/calendar3.jpg",
+  "/images/spatzenschule/calendar4.jpg",
+  "/images/spatzenschule/calendar5.jpg",
+  "/images/spatzenschule/calendar6.jpg",
+  "/images/spatzenschule/calendar7.jpg",
+];
+---
+
+<Base
+  title="Calendar 2026 – Spatzenschule Melbourne"
+  meta_title="Calendar 2026 – Spatzenschule Melbourne"
+  description="Key dates and events at Spatzenschule Melbourne for 2026: term start, Lantern Festival, Film Festival, Christmas Market and more."
+>
+  <section class="section-lg">
+    <div class="container">
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge
+            icon="FaCalendarDays"
+            label="Calendar 2026"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">Calendar & News</h2>
+          <p class="text-center text-balance">
+            The Spatzenschule year is full of learning and cultural activities –
+            including several informal gatherings throughout the year, such as
+            dinners at local restaurants or the German Club.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-10 row justify-center">
+        <div class="lg:col-8">
+          <div class="bg-dark/2 rounded-2xl p-8" data-aos="fade-up-sm">
+            <p>
+              We also organise a <strong>German lunch</strong> for the whole Toorak Primary School
+              community once per term – always very popular! Proceeds go towards funding
+              Spatzenschule programs and events.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calendar events -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Events list -->
+        <div class="lg:col-7" data-aos="fade-up-sm" data-aos-delay="100">
+          <h3 class="h4 font-semibold mb-8">Year Overview 2026</h3>
+          <div class="space-y-8">
+            {
+              events2026.map((group) => (
+                <div>
+                  <h4 class="text-primary font-semibold mb-4 pb-2 border-b border-border">
+                    {group.month}
+                  </h4>
+                  <div class="space-y-4">
+                    {group.items.map((event) => (
+                      <div class="flex gap-4 items-start">
+                        <div class="bg-primary/10 rounded-xl px-3 py-2 text-xs font-semibold text-primary shrink-0 min-w-[90px] text-center">
+                          {event.date}
+                        </div>
+                        <p class="text-text-dark mt-1">{event.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Image gallery -->
+        <div class="lg:col-5" data-aos="fade-up-sm" data-aos-delay="200">
+          <div class="grid grid-cols-2 gap-3">
+            {
+              calendarImages.slice(0, 6).map((img, i) => (
+                <div class={`rounded-2xl overflow-hidden ${i === 0 ? "col-span-2" : ""}`}>
+                  <ImageMod
+                    src={img}
+                    alt={`Spatzenschule event ${i + 1}`}
+                    width={400}
+                    height={i === 0 ? 250 : 180}
+                    class="w-full object-cover"
+                    format="webp"
+                    loading="lazy"
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cultural highlights -->
+  <section class="section pt-0">
+    <div class="container">
+      <div data-aos="fade-up-sm" class="row justify-center">
+        <div class="lg:col-9">
+          <TitleBadge
+            icon="FaStar"
+            label="Cultural Highlights"
+            bg_color="bg-tertiary"
+          />
+          <h2 class="py-4 text-center">Annual Highlights</h2>
+        </div>
+      </div>
+
+      <div class="pt-10 row g-4">
+        {
+          [
+            {
+              icon: "🎥",
+              title: "German Film Festival Melbourne",
+              desc: "A joint school excursion for Spatzen and Falken – German cinema right in Melbourne.",
+              img: "/images/spatzenschule/calendar3.jpg",
+            },
+            {
+              icon: "🏮",
+              title: "Annual Lantern Festival",
+              desc: "Crafts, singing and a lantern parade – a celebration enjoyed by children and parents alike.",
+              img: "/images/spatzenschule/calendar4.jpg",
+            },
+            {
+              icon: "🎨",
+              title: "AGTV Arts & Culture Competition",
+              desc: "Our students take part in the annual competition for German-speaking schools across Australia.",
+              img: "/images/spatzenschule/calendar5.jpg",
+            },
+            {
+              icon: "🎄",
+              title: "Christmas Market & St Nicholas Celebration",
+              desc: "German Christmas traditions in Melbourne – the St Nicholas celebration and the German Christmas Market.",
+              img: "/images/spatzenschule/calendar6.jpg",
+            },
+          ].map((highlight) => (
+            <div class="md:col-6 lg:col-3" data-aos="fade-up-sm">
+              <div class="bg-dark/2 rounded-2xl overflow-hidden h-full">
+                <ImageMod
+                  src={highlight.img}
+                  alt={highlight.title}
+                  width={300}
+                  height={200}
+                  class="w-full object-cover"
+                  format="webp"
+                  loading="lazy"
+                />
+                <div class="p-5">
+                  <div class="text-2xl mb-2">{highlight.icon}</div>
+                  <h4 class="font-semibold mb-2">{highlight.title}</h4>
+                  <p class="text-sm text-text-dark">{highlight.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary />
+</Base>

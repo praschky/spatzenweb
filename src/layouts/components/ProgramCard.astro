@@ -1,0 +1,75 @@
+---
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import ImageMod from "./ImageMod.astro";
+
+type Props = {
+  data: CollectionEntry<"programs">;
+  aosDelay?: number;
+};
+
+const { data, aosDelay } = Astro.props;
+const { title, image, description, end_date, categories, goal, raised } =
+  data.data;
+
+// Calculate days left
+const today = new Date();
+const endDate = new Date(end_date!);
+const diffTime = endDate.getTime() - today.getTime();
+const daysLeft = Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 0);
+---
+
+<div
+  data-aos="fade-up-sm"
+  data-aos-delay={aosDelay}
+  class="col-11 md:col-6 lg:col-4 group"
+>
+  <div class="px-6 py-5 border border-border rounded-4xl flex flex-col h-full">
+    <div class="group overflow-hidden rounded-2xl mb-10">
+      <ImageMod
+        src={image!}
+        alt={title!}
+        width={400}
+        height={300}
+        class="overflow-hidden object-cover w-full md:aspect-[16/10] rounded-2xl group-hover:scale-110 transition duration-700"
+        format="webp"
+        loading={"lazy"}
+      />
+    </div>
+
+    <ul class="flex justify-between items-baseline mb-4">
+      <li class="mr-4 flex gap-2 flex-wrap">
+        {
+          categories?.map((category: string) => (
+            <p class="px-4 py-1 rounded-full bg-transparent border border-border text-xs w-fit font-semibold">
+              {humanize(category)}
+            </p>
+          ))
+        }
+      </li>
+      <li class="inline-block text-sm">{daysLeft} Days Left</li>
+    </ul>
+
+    <h3 class="h6 mb-2" set:html={title} />
+    <p set:html={description} />
+
+    <div class="flex justify-between mt-4 mb-6 text-text-dark">
+      <div>
+        <span class="text-sm" set:html={markdownify("Goal")} />
+        <p class="mt-2 h6 font-bold" set:html={markdownify(goal || "")} />
+      </div>
+
+      <div>
+        <span class="text-sm" set:html={markdownify("Raised")} />
+        <p class="mt-2 h6 font-bold" set:html={markdownify(raised || "")} />
+      </div>
+    </div>
+
+    <a
+      class="btn btn-outline w-full mt-auto"
+      href={`/${"programs"}/${data.id}`}
+    >
+      View Program
+    </a>
+  </div>
+</div>

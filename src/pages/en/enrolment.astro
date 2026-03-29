@@ -1,0 +1,217 @@
+---
+// English enrolment page – /en/enrolment
+import TitleBadge from "@/components/TitleBadge.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import Base from "@/layouts/Base.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+---
+
+<Base
+  title="Enrolment & Forms – Spatzenschule Melbourne"
+  meta_title="Enrolment – Spatzenschule Melbourne"
+  description="Find all the important forms for the Spatzenschule programs – to complete, download and submit."
+>
+  <section class="section-lg">
+    <div class="container">
+      <!-- Section Title -->
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge
+            icon="FaFileLines"
+            label="Enrolment"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">Enrolment & Forms</h2>
+          <p class="text-center text-balance">
+            Here you can find all the important forms for the Spatzenschule
+            programs – to complete, download and submit.
+          </p>
+        </div>
+      </div>
+
+      <!-- Program cards -->
+      <div class="pt-14 row g-4">
+        <!-- Sparrows Program -->
+        <div class="md:col-6" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="bg-primary rounded-4xl p-10 relative overflow-hidden h-full">
+            <div
+              class="absolute top-[70%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/20"
+              style="width: 100vw; height: 200vw;"
+            />
+            <div class="relative z-10">
+              <div class="mb-6">
+                <ImageMod
+                  src="/images/spatzenschule/einschreiben1.jpg"
+                  alt="Sparrows Program"
+                  width={500}
+                  height={300}
+                  class="w-full rounded-2xl object-cover"
+                  format="webp"
+                  loading="eager"
+                />
+              </div>
+              <h3 class="h4 font-semibold mb-3">
+                Sparrows Program (Prep – Year 6)
+              </h3>
+              <p class="mb-6 text-sm">
+                For children aged 5–12 with a German-speaking background.
+              </p>
+              <div class="space-y-3">
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Expression of Interest – Sparrows Program"
+                  class="btn btn-outline-white w-full text-center block"
+                >
+                  Request Expression of Interest Form
+                </a>
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Enrolment Form – Sparrows Program"
+                  class="btn btn-white w-full text-center block"
+                >
+                  Request Enrolment Form
+                </a>
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Withdrawal Form – Sparrows Program"
+                  class="btn btn-outline-white w-full text-center block"
+                >
+                  Request Withdrawal Form
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Falcons Program -->
+        <div class="md:col-6" data-aos="fade-up-sm" data-aos-delay="200">
+          <div class="bg-tertiary/70 rounded-4xl p-10 relative overflow-hidden h-full">
+            <div
+              class="absolute top-[70%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/20"
+              style="width: 100vw; height: 200vw;"
+            />
+            <div class="relative z-10">
+              <div class="mb-6">
+                <ImageMod
+                  src="/images/spatzenschule/einschreiben2.jpg"
+                  alt="Falcons Program"
+                  width={500}
+                  height={300}
+                  class="w-full rounded-2xl object-cover"
+                  format="webp"
+                  loading="eager"
+                />
+              </div>
+              <h3 class="h4 font-semibold mb-3">
+                Falcons Program (Year 7–12)
+              </h3>
+              <p class="mb-6 text-sm">
+                For students who wish to further develop their German to native speaker level.
+              </p>
+              <div class="space-y-3">
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Expression of Interest – Falcons Program"
+                  class="btn btn-outline-white w-full text-center block"
+                >
+                  Request Expression of Interest Form
+                </a>
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Enrolment Form – Falcons Program"
+                  class="btn btn-dark w-full text-center block"
+                >
+                  Request Enrolment Form
+                </a>
+                <a
+                  href="mailto:enrolments.spatzenschule@gmail.com?subject=Withdrawal Form – Falcons Program"
+                  class="btn btn-outline-white w-full text-center block"
+                >
+                  Request Withdrawal Form
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to enrol section -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-8" data-aos="fade-up-sm">
+          <TitleBadge
+            icon="FaListCheck"
+            label="How Enrolment Works"
+            bg_color="bg-primary"
+          />
+          <h2 class="py-4">How to Enrol</h2>
+
+          <div class="space-y-6 pt-4">
+            {[
+              {
+                num: "01",
+                title: "Request a Form",
+                desc: "Send us an email requesting the form you need (Expression of Interest, Enrolment or Withdrawal) for your child.",
+              },
+              {
+                num: "02",
+                title: "Complete the Form",
+                desc: "Fill in the form digitally, or print and complete it by hand.",
+              },
+              {
+                num: "03",
+                title: "Submit the Form",
+                desc: "Send the completed form to: enrolments.spatzenschule@gmail.com",
+              },
+              {
+                num: "04",
+                title: "Confirmation & Next Steps",
+                desc: "We will confirm receipt and advise on next steps – e.g. language assessment, placement, or enrolment confirmation.",
+              },
+            ].map((step) => (
+              <div class="flex gap-6 items-start p-6 bg-dark/2 rounded-2xl">
+                <span class="text-4xl font-bold text-primary/40 shrink-0">{step.num}</span>
+                <div>
+                  <h4 class="font-semibold mb-2">{step.title}</h4>
+                  <p class="text-text-dark">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="row justify-center pt-10">
+        <div class="lg:col-8">
+          <div class="bg-secondary/10 border border-secondary/20 rounded-2xl p-8">
+            <h4 class="font-semibold mb-4">Important Notes About the Forms</h4>
+            <ul class="space-y-2 text-text-dark">
+              <li>
+                <strong>Expression of Interest:</strong> Lets us know you are interested in a place – no commitment required.
+              </li>
+              <li>
+                <strong>Enrolment Form:</strong> Use this when you are ready to secure a place for your child.
+              </li>
+              <li>
+                <strong>Withdrawal Form:</strong> Required if you can no longer take up the place or your child is leaving the program.
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-6 text-center">
+            <p class="text-text-dark mb-4">Questions? Contact us directly:</p>
+            <a
+              href="mailto:enrolments.spatzenschule@gmail.com"
+              class="btn btn-primary"
+            >
+              enrolments.spatzenschule@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQs />
+  <CallToActionSecondary isNoSectionTop={true} />
+</Base>

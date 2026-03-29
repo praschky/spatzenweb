@@ -1,0 +1,24 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { member, index } = Astro.props;
+---
+
+<div data-aos="zoom-right-sm" data-aos-delay={index * 150 + 50}>
+  <div class="bg-dark/2 rounded-4xl p-4 pb-0 flex flex-col overflow-hidden">
+    <ImageMod
+      src={member.image || "/images/avatar.png"}
+      alt={member.name || member.title}
+      width={400}
+      height={400}
+      class="w-full mt-auto"
+    />
+  </div>
+
+  <h3
+    class="h6 font-medium mt-4 mb-px"
+    set:html={markdownify(member.name || member.title || "")}
+  />
+  <p set:html={markdownify(member.designation || "")} />
+</div>

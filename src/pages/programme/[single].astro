@@ -1,0 +1,135 @@
+---
+// Programme detail page – German URL /programme/[single]
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionQuaternary from "@/partials/CallToActionQuaternary.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const FOLDER = "programs";
+  const programs = await getSinglePage(FOLDER);
+  return programs.map((program) => ({
+    params: { single: program.id },
+    props: { program },
+  }));
+}
+
+const { program } = Astro.props;
+const { title, meta_title, description, image, categories, badge, numbers_banner, button } =
+  program.data;
+const { Content } = await render(program);
+
+const heroOverlayProgram =
+  program.id === "spatzenprogramm" || program.id === "falkenprogramm";
+const heroOverlayStats =
+  heroOverlayProgram && Boolean(image) && Boolean(numbers_banner?.enable);
+const numbersBannerBg = (badge && badge.bg_color) || "bg-secondary";
+
+const featureImageClass = heroOverlayProgram
+  ? "w-full max-w-lg mx-auto aspect-[16/7.5] object-cover object-center rounded-3xl"
+  : "w-full aspect-[16/7.5] object-cover object-center rounded-4xl";
+/** Fills the overlay wrapper; max width comes from the parent */
+const featureImageInOverlayClass =
+  "w-full aspect-[16/7.5] object-cover object-center rounded-3xl";
+const featureImageWidth = heroOverlayProgram ? 512 : 1280;
+const featureImageHeight = heroOverlayProgram ? 240 : 600;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <section class="section-lg">
+    <div class="container">
+      <article data-aos="fade-up-sm" data-aos-delay="150">
+        <TitleBadge
+          icon={badge?.icon ?? "FaAngleRight"}
+          label={categories?.map((c) => c).join(", ") ?? ""}
+          bg_color={(badge && badge.bg_color) || "bg-secondary"}
+          isCenter={false}
+        />
+        <h1
+          set:html={markdownify(title!)}
+          class="mb-8 mt-4 font-semibold text-balance"
+        />
+
+        {
+          image && heroOverlayStats && numbers_banner && (
+            <div class="relative mb-10 w-full max-w-lg mx-auto">
+              <ImageMod
+                src={image}
+                height={featureImageHeight}
+                width={featureImageWidth}
+                alt={title!}
+                class={featureImageInOverlayClass}
+                format="webp"
+                loading={"eager"}
+              />
+              <div class="absolute inset-x-2 bottom-2 z-10 sm:inset-x-3 sm:bottom-3">
+                <NumbersBanner
+                  numbers_banner={numbers_banner}
+                  bgColor={numbersBannerBg}
+                  variant="heroOverlay"
+                />
+              </div>
+            </div>
+          )
+        }
+
+        {
+          image && !heroOverlayStats && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={featureImageHeight}
+                width={featureImageWidth}
+                alt={title!}
+                class={featureImageClass}
+                format="webp"
+                loading={"eager"}
+              />
+            </div>
+          )
+        }
+
+        {
+          numbers_banner?.enable && !heroOverlayStats && (
+            <div class="mb-10">
+              <NumbersBanner numbers_banner={numbers_banner} bgColor={numbersBannerBg} />
+            </div>
+          )
+        }
+
+        <div class="row justify-center">
+          <div class="lg:col-10">
+            <div class="content mb-10">
+              <Content />
+            </div>
+
+            {
+              button?.enable && (
+                <div class="text-center mt-8">
+                  <a href={button.link} class="btn btn-primary btn-lg">
+                    {button.label}
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <CallToActionQuaternary isNoSectionTop={true} />
+  <FAQs />
+  <CallToActionSecondary />
+</Base>

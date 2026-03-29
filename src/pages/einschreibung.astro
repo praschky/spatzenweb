@@ -1,0 +1,239 @@
+---
+// Einschreibung & Formulare page
+import TitleBadge from "@/components/TitleBadge.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import Base from "@/layouts/Base.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+---
+
+<Base
+  title="Einschreibung & Formulare"
+  meta_title="Einschreibung – Spatzenschule Melbourne"
+  description="Hier finden Sie alle wichtigen Formulare für die Programme der Spatzenschule – zum Ausfüllen, Herunterladen und Einreichen."
+>
+  <section class="section-lg">
+    <div class="container">
+      <!-- Section Title -->
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge
+            icon="FaFileLines"
+            label="Anmeldung"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">Einschreibung & Formulare</h2>
+          <p class="text-center text-balance">
+            Hier finden Sie alle wichtigen Formulare für die Programme der
+            Spatzenschule – zum Ausfüllen, Herunterladen und Einreichen.
+          </p>
+        </div>
+      </div>
+
+      <!-- Program cards -->
+      <div class="pt-14 row g-4">
+        <!-- Spatzenprogramm -->
+        <div
+          class="md:col-6"
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+        >
+          <div class="bg-primary rounded-4xl p-10 relative overflow-hidden h-full">
+            <div
+              class="absolute top-[70%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/20"
+              style="width: 100vw; height: 200vw;"
+            />
+            <div class="relative z-10">
+              <div class="mb-6">
+                <ImageMod
+                  src="/images/spatzenschule/einschreiben1.jpg"
+                  alt="Spatzenprogramm"
+                  width={500}
+                  height={300}
+                  class="w-full rounded-2xl object-cover"
+                  format="webp"
+                  loading="eager"
+                />
+              </div>
+              <h3 class="h4 font-semibold mb-3">
+                Spatzenprogramm (Prep – Year 6)
+              </h3>
+              <p class="mb-6 text-sm">
+                Für Kinder im Alter von 5–12 Jahren mit deutschsprachigem Hintergrund.
+              </p>
+              <div class="space-y-3">
+                <a
+                  href="/content/forms/Interessentenformular_2020-Spatzen-final.pdf"
+                  class="btn btn-outline-white w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Interessenformular
+                </a>
+                <a
+                  href="/content/forms/Anmeldeformular%20Spatzen.pdf"
+                  class="btn btn-white w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Anmeldeformular
+                </a>
+                <a
+                  href="/content/forms/Abmeldeformular_2021-Spatzen-final.pdf"
+                  class="btn btn-outline-white w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Abmeldeformular
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Falkenprogramm -->
+        <div
+          class="md:col-6"
+          data-aos="fade-up-sm"
+          data-aos-delay="200"
+        >
+          <div class="bg-tertiary/70 rounded-4xl p-10 relative overflow-hidden h-full">
+            <div
+              class="absolute top-[70%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/20"
+              style="width: 100vw; height: 200vw;"
+            />
+            <div class="relative z-10">
+              <div class="mb-6">
+                <ImageMod
+                  src="/images/spatzenschule/einschreiben2.jpg"
+                  alt="Falkenprogramm"
+                  width={500}
+                  height={300}
+                  class="w-full rounded-2xl object-cover"
+                  format="webp"
+                  loading="eager"
+                />
+              </div>
+              <h3 class="h4 font-semibold mb-3">
+                Falkenprogramm (Year 7–12)
+              </h3>
+              <p class="mb-6 text-sm">
+                Für Schüler:innen, die ihre Deutschkenntnisse auf Muttersprachlerniveau weiterentwickeln möchten.
+              </p>
+              <div class="space-y-3">
+                <a
+                  href="/content/forms/Interessentenformular_2020-Falken-final.pdf"
+                  class="btn btn-outline-white w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Interessenformular
+                </a>
+                <a
+                  href="/content/forms/Anmeldeformular%20Falken.pdf"
+                  class="btn btn-dark w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Anmeldeformular
+                </a>
+                <a
+                  href="/content/forms/Abmeldeformular_2021-Falken-final.pdf"
+                  class="btn btn-outline-white w-full text-center block"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Abmeldeformular
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to enrol section -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-8" data-aos="fade-up-sm">
+          <TitleBadge
+            icon="FaListCheck"
+            label="So funktioniert die Anmeldung"
+            bg_color="bg-primary"
+          />
+          <h2 class="py-4">So funktioniert die Anmeldung</h2>
+
+          <div class="space-y-6 pt-4">
+            {[
+              {
+                num: "01",
+                title: "Formular anfragen",
+                desc: "Senden Sie uns eine E-Mail mit dem gewünschten Formular (Interesse, Anmeldung oder Abmeldung) für Ihr Kind.",
+              },
+              {
+                num: "02",
+                title: "Formular ausfüllen",
+                desc: "Füllen Sie das Formular digital aus oder drucken Sie es aus und füllen Sie es handschriftlich aus.",
+              },
+              {
+                num: "03",
+                title: "Formular einreichen",
+                desc: "Senden Sie das ausgefüllte Formular an: enrolments.spatzenschule@gmail.com",
+              },
+              {
+                num: "04",
+                title: "Bestätigung & nächste Schritte",
+                desc: "Wir bestätigen den Eingang und informieren Sie über die nächsten Schritte – z. B. Sprachtest, Einschätzung oder Platzvergabe.",
+              },
+            ].map((step) => (
+              <div class="flex gap-6 items-start p-6 bg-dark/2 rounded-2xl">
+                <span class="text-4xl font-bold text-primary/40 shrink-0">{step.num}</span>
+                <div>
+                  <h4 class="font-semibold mb-2">{step.title}</h4>
+                  <p class="text-text-dark">{step.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="row justify-center pt-10">
+        <div class="lg:col-8">
+          <div class="bg-secondary/10 border border-secondary/20 rounded-2xl p-8">
+            <h4 class="font-semibold mb-4">Wichtige Hinweise zu den Formularen</h4>
+            <ul class="space-y-2 text-text-dark">
+              <li>
+                <strong>Interessenformular:</strong> Damit erfahren wir, dass Sie grundsätzlich an einem Platz interessiert sind – ohne Verbindlichkeit.
+              </li>
+              <li>
+                <strong>Anmeldeformular:</strong> Wenn Sie konkret einen Platz sichern möchten.
+              </li>
+              <li>
+                <strong>Abmeldeformular:</strong> Für den Fall, dass Sie den Platz nicht mehr wahrnehmen können oder Ihr Kind den Unterricht beendet.
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-6 text-center">
+            <p class="text-text-dark mb-4">
+              Fragen? Kontaktieren Sie uns direkt:
+            </p>
+            <a
+              href="mailto:enrolments.spatzenschule@gmail.com"
+              class="btn btn-primary"
+            >
+              enrolments.spatzenschule@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQs />
+  <CallToActionSecondary isNoSectionTop={true} />
+</Base>

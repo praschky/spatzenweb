@@ -1,0 +1,54 @@
+---
+import ReviewSlider from "@/components/ReviewSlider.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const reviewsSection = await getListPage(
+  "reviewsSection",
+  "reviews-section",
+);
+
+if(!reviewsSection.data.enable){
+  return null;
+}
+---
+
+<section class="section py-0">
+      <div class="container">
+        {/* Section title */}
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="150"
+          class="row justify-center"
+        >
+          <div class="col-10 lg:col-7">
+            {reviewsSection.data.badge.enable && (
+              <TitleBadge {...reviewsSection.data.badge} />
+            )}
+
+            {reviewsSection.data.title && (
+              <h2
+                class="py-4 text-center"
+                set:html={markdownify(reviewsSection.data.title)}
+              />
+            )}
+
+            {reviewsSection.data.description && (
+              <p
+                class="text-center text-balance"
+                set:html={markdownify(reviewsSection.data.description)}
+              />
+            )}
+          </div>
+        </div>
+
+        <div class="pt-14">
+          <div class="row">
+            <div class="lg:col-8 mx-auto">
+              <ReviewSlider data={reviewsSection} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

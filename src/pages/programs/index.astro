@@ -1,0 +1,227 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import Pagination from "@/components/Pagination.astro";
+import ProgramCard from "@/components/ProgramCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+
+const FOLDER = "programs";
+
+const programsIndex = await getListPage(
+  FOLDER,
+  "-index"
+);
+if(programsIndex.data.draft){
+  return Astro.redirect("/404");
+}
+const { title, description, badge, all_programs, button, numbers_banner } =
+  programsIndex.data;
+const programs = await getSinglePage(FOLDER);
+
+const featuredProgram = programs
+  .filter((program) => program?.data?.featured)
+  .slice(0, 1);
+const totalPages: number = Math.ceil(
+  programs.length / config.settings.pagination
+);
+---
+
+<Base {...programsIndex.data}>
+  <section class="section-lg">
+    <div class="container">
+      {/* section title   */}
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-between items-center max-lg:text-center"
+      >
+        <div class="lg:col-7">
+          <TitleBadge
+            icon={badge?.icon}
+            label={badge?.label}
+            bg_color={badge?.bg_color}
+            isCenter={false}
+          />
+          <h2 class="py-4 h1" set:html={markdownify(title || "")} />
+        </div>
+
+        <div class="lg:col-5">
+          <p class="text-balance" set:html={markdownify(description || "")} />
+
+          {
+            button?.enable && (
+              <a href={button.link} class="btn btn-primary mt-4">
+                {button.label}
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="pt-14">
+        {
+          featuredProgram.map((program) => (
+            <div
+              class="rounded-[32px] bg-dark/2 group p-10"
+              data-aos="fade-up-sm"
+              data-aos-delay="200"
+            >
+              <div class="row items-center g-4">
+                <div class="col-11 lg:col-5 mx-auto">
+                  <div class="relative group overflow-hidden rounded-2xl">
+                    <ImageMod
+                      src={program.data.image!}
+                      alt={program.data.title!}
+                      width={500}
+                      height={460}
+                      class="object-cover rounded-2xl w-full group-hover:scale-110 transition duration-700"
+                      format="webp"
+                      loading={"eager"}
+                    />
+                  </div>
+                </div>
+
+                <div class="col-11 lg:col-6 mx-auto">
+                  {program.data.title && (
+                    <h2
+                      class="h4 font-semibold mb-6"
+                      set:html={markdownify(program.data.title)}
+                    />
+                  )}
+                  {program.body && (
+                    <div
+                      class="line-clamp-3"
+                      set:html={markdownify(program.body, true)}
+                    />
+                  )}
+
+                  <a
+                    class="btn btn-primary my-8"
+                    href={`/${FOLDER}/${program.id}`}
+                    rel="noopener"
+                    data-aos="fade-up-sm"
+                    data-aos-delay="200"
+                  >
+                    {"View Program"}
+                  </a>
+
+                  <div class="flex flex-wrap lg:w-1/2 justify-between text-text-dark">
+                    <div>
+                      <span class="text-sm" set:html={markdownify("Goal")} />
+                      <p
+                        class="mt-2 h6 font-bold"
+                        set:html={markdownify(program.data.goal || "")}
+                      />
+                    </div>
+
+                    <div>
+                      <span class="text-sm" set:html={markdownify("Raised")} />
+                      <p
+                        class="mt-2 h6 font-bold"
+                        set:html={markdownify(program.data.raised || "")}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-0">
+    <div class="container">
+      {/* Section Title */}
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+        class="row justify-center"
+      >
+        <div class="col-10 lg:col-7">
+          {
+            all_programs?.badge?.enable && (
+              <TitleBadge
+                icon={all_programs?.badge?.icon}
+                label={all_programs?.badge?.label}
+                bg_color={all_programs?.badge?.bg_color}
+              />
+            )
+          }
+          <h2
+            class="py-4 text-center"
+            set:html={markdownify(all_programs?.title || "")}
+          />
+          <p
+            class="text-center text-balance"
+            set:html={markdownify(all_programs?.description || "")}
+          />
+        </div>
+      </div>
+
+      <div class="pt-14">
+        <div class="row g-4 max-md:justify-center">
+          {
+            programs?.map((program, i) => {
+              const aosDelay = 100 * (i % 3);
+              return <ProgramCard data={program} aosDelay={aosDelay} />;
+            })
+          }
+          <Pagination
+            section={FOLDER}
+            currentPage={1}
+            totalPages={totalPages}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    numbers_banner && numbers_banner.enable && (
+      <section class="section pt-0">
+        <div class="container">
+          {/* Section Title */}
+          <div
+            data-aos="fade-up-sm"
+            data-aos-delay="150"
+            class="row justify-center"
+          >
+            <div class="col-10 lg:col-7">
+              {numbers_banner?.badge?.enable && (
+                <TitleBadge
+                  icon={numbers_banner?.badge?.icon}
+                  label={numbers_banner?.badge?.label}
+                  bg_color={numbers_banner?.badge?.bg_color}
+                />
+              )}
+              <h2
+                class="py-4 text-center"
+                set:html={markdownify(numbers_banner?.title || "")}
+              />
+              <p
+                class="text-center text-balance"
+                set:html={markdownify(numbers_banner?.description || "")}
+              />
+            </div>
+          </div>
+
+          <NumbersBanner
+            numbers_banner={numbers_banner}
+            bgColor="bg-secondary"
+          />
+        </div>
+      </section>
+    )
+  }
+
+  <FAQs />
+  <CallToActionSecondary isNoSectionTop={true} />
+</Base>

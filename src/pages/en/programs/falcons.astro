@@ -1,0 +1,114 @@
+---
+// English Falcons Program page – /en/programs/falcons
+import ImageMod from "@/components/ImageMod.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionQuaternary from "@/partials/CallToActionQuaternary.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import NumbersBanner from "@/partials/NumbersBanner.astro";
+import { render } from "astro:content";
+
+const programs = await getSinglePage("programs");
+const program = programs.find((p) => p.id === "falkenprogramm")!;
+const { title, image, badge, numbers_banner, button } = program.data;
+const { Content } = await render(program);
+
+const heroOverlayStats = Boolean(image) && Boolean(numbers_banner?.enable);
+const numbersBannerBg = (badge && badge.bg_color) || "bg-tertiary";
+const featureImageWidth = 512;
+const featureImageHeight = 240;
+---
+
+<Base
+  title="Falcons Program (Year 7–12) – Spatzenschule Melbourne"
+  meta_title="Falcons Program – Spatzenschule Melbourne"
+  description="The Falcons Program at Spatzenschule Melbourne develops German language skills to native speaker level for students in Year 7–12. Classes held Mondays at Toorak Primary School."
+>
+  <section class="section-lg">
+    <div class="container">
+      <article data-aos="fade-up-sm" data-aos-delay="150">
+        <TitleBadge
+          icon={badge?.icon ?? "FaAngleRight"}
+          label="Year 7 – 12"
+          bg_color={(badge && badge.bg_color) || "bg-tertiary"}
+          isCenter={false}
+        />
+        <h1 class="mb-8 mt-4 font-semibold text-balance">
+          Falcons Program (Year 7 – 12)
+        </h1>
+
+        {
+          image && heroOverlayStats && numbers_banner && (
+            <div class="relative mb-10 w-full max-w-lg mx-auto">
+              <ImageMod
+                src={image}
+                height={featureImageHeight}
+                width={featureImageWidth}
+                alt={title!}
+                class="w-full aspect-[16/7.5] object-cover object-center rounded-3xl"
+                format="webp"
+                loading={"eager"}
+              />
+              <div class="absolute inset-x-2 bottom-2 z-10 sm:inset-x-3 sm:bottom-3">
+                <NumbersBanner
+                  numbers_banner={numbers_banner}
+                  bgColor={numbersBannerBg}
+                  variant="heroOverlay"
+                />
+              </div>
+            </div>
+          )
+        }
+
+        {
+          image && !heroOverlayStats && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={featureImageHeight}
+                width={featureImageWidth}
+                alt={title!}
+                class="w-full max-w-lg mx-auto aspect-[16/7.5] object-cover object-center rounded-3xl"
+                format="webp"
+                loading={"eager"}
+              />
+            </div>
+          )
+        }
+
+        {
+          numbers_banner?.enable && !heroOverlayStats && (
+            <div class="mb-10">
+              <NumbersBanner numbers_banner={numbers_banner} bgColor="bg-tertiary/60" />
+            </div>
+          )
+        }
+
+        <div class="row justify-center">
+          <div class="lg:col-10">
+            <div class="content mb-10">
+              <Content />
+            </div>
+
+            {
+              button?.enable && (
+                <div class="text-center mt-8">
+                  <a href={button.link} class="btn btn-primary btn-lg">
+                    {button.label}
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <CallToActionQuaternary isNoSectionTop={true} />
+  <FAQs />
+  <CallToActionSecondary />
+</Base>

@@ -1,0 +1,106 @@
+---
+// English guidelines page – /en/guidelines
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+
+const guidelines = [
+  {
+    title: "Commitment to Child Safety Statement",
+    desc: "Our commitment to the safety of all children at Spatzenschule Melbourne.",
+    icon: "🛡️",
+  },
+  {
+    title: "Child Safe Policy",
+    desc: "Our comprehensive policy for the protection of children – outlining responsibilities and procedures.",
+    icon: "📋",
+  },
+  {
+    title: "Child Safe Code of Conduct",
+    desc: "Code of conduct for all persons who come into contact with children at Spatzenschule.",
+    icon: "✅",
+  },
+  {
+    title: "Virtual Classroom Policy",
+    desc: "Guidelines for online lessons and virtual classrooms.",
+    icon: "💻",
+  },
+  {
+    title: "Annual Consent Form: Photographing and Filming Students",
+    desc: "Consent form for the recording and use of photos and videos of students.",
+    icon: "📸",
+  },
+];
+---
+
+<Base
+  title="School Guidelines – Spatzenschule Melbourne"
+  meta_title="School Guidelines – Spatzenschule Melbourne"
+  description="Overview of Spatzenschule Melbourne's school guidelines: Child Safety Policy, Code of Conduct, Virtual Classroom Policy and more."
+>
+  <section class="section-lg">
+    <div class="container">
+      <!-- Section Title -->
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-7">
+          <TitleBadge
+            icon="FaShield"
+            label="School Guidelines"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">School Guidelines</h2>
+          <p class="text-center text-balance">
+            Below you can find an overview of the Spatzenschule guidelines.
+            These policies are in place to ensure the safety, well-being and
+            best possible learning environment for our students.
+          </p>
+          <p class="text-center text-sm text-text-dark mt-2">
+            All documents are available in English.
+          </p>
+        </div>
+      </div>
+
+      <!-- Guidelines list -->
+      <div class="pt-14 row g-4 justify-center">
+        <div class="lg:col-8">
+          <div class="space-y-4" data-aos="fade-up-sm">
+            {
+              guidelines.map((item) => (
+                <div class="flex gap-5 items-start p-6 bg-dark/2 rounded-2xl">
+                  <span class="text-3xl shrink-0">{item.icon}</span>
+                  <div class="flex-1">
+                    <h4 class="font-semibold mb-1">{item.title}</h4>
+                    <p class="text-sm text-text-dark">{item.desc}</p>
+                  </div>
+                  <a
+                    href="mailto:enrolments.spatzenschule@gmail.com?subject=Request School Guidelines"
+                    class="btn btn-sm btn-outline-primary shrink-0"
+                  >
+                    Request
+                  </a>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="mt-10 bg-secondary/10 border border-secondary/20 rounded-2xl p-8" data-aos="fade-up-sm">
+            <p class="text-center">
+              We encourage all parents to read these guidelines carefully and contact
+              our team if you have any questions.
+            </p>
+            <div class="text-center mt-6">
+              <a
+                href="mailto:enrolments.spatzenschule@gmail.com"
+                class="btn btn-primary"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary />
+</Base>

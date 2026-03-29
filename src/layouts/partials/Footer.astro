@@ -1,0 +1,143 @@
+---
+import Social from "@/components/Social.astro";
+import config from "@/config/config.json";
+import menu from "@/config/menu.json";
+import social from "@/config/social.json";
+import ImageMod from "@/components/ImageMod.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { copyright, footer_description } = config.params;
+const { logo, logo_width, logo_height, title } = config.site;
+const footerLogoW = Number(String(logo_width).replace("px", ""));
+const footerLogoH = Number(String(logo_height).replace("px", ""));
+
+// Function to replace {year} this from string to year
+function replaceYear(text: string) {
+  const year = new Date().getFullYear();
+
+  return text.replace("{year}", year.toString());
+}
+---
+
+<footer data-aos="fade-up-sm" data-aos-delay="150" class="section py-0">
+  <div class="container">
+    <div class="row justify-center">
+      <div class="col-11">
+        <div class="row gx-4">
+          <div class="md:col-6 lg:col-4">
+            <div class="mb-10 lg:mb-8">
+              <ImageMod
+                src={logo}
+                width={footerLogoW * 2}
+                height={footerLogoH * 2}
+                alt={title}
+                class="mb-5 inline-block"
+                format="webp"
+                loading="lazy"
+                style={{
+                  height: `${footerLogoH}px`,
+                  width: `${footerLogoW}px`,
+                }}
+              />
+              <p
+                class="mb-4 md:text-balance text-lg text-text lg:mb-8 max-xl:[&>br]:hidden"
+                set:html={markdownify(footer_description)}
+              />
+
+              {
+                config.subscription_in_footer &&
+                  config.subscription_in_footer.enable && (
+                    <form
+                      action={
+                        config.subscription_in_footer.mailchimp_form_action
+                      }
+                      target="_blank"
+                      method="post"
+                      class="flex justify-between rounded-full bg-dark/3 pl-1.5"
+                    >
+                      <span class="bg-body p-2 rounded-full m-auto">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="none"
+                        >
+                          <g
+                            stroke="#030303"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-miterlimit="10"
+                            stroke-width="1.5"
+                            opacity=".4"
+                          >
+                            <>
+                              <path d="M14.167 17.083H5.834c-2.5 0-4.167-1.25-4.167-4.166V7.082c0-2.917 1.667-4.167 4.167-4.167h8.333c2.5 0 4.167 1.25 4.167 4.167v5.833c0 2.917-1.667 4.167-4.167 4.167Z" />
+                              <path d="m14.166 7.5-2.608 2.083c-.858.684-2.267.684-3.125 0L5.833 7.5" />
+                            </>
+                          </g>
+                        </svg>
+                      </span>
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        class="form-input text-sm text-text-dark! w-full rounded-full !border-transparent bg-transparent py-2! pl-2! placeholder:!opacity-100 placeholder:text-text focus:ring-0"
+                        required
+                        name={config.subscription_in_footer.mailchimp_form_name}
+                      />
+                      <button
+                        class="rounded-full bg-dark text-sm text-white px-4 py-3 font-medium transition hover:opacity-80 cursor-pointer"
+                        type="submit"
+                      >
+                        Subscribe
+                      </button>
+                    </form>
+                  )
+              }
+            </div>
+          </div>
+
+          <div class="md:col-6 lg:col-7 ml-auto">
+            <div class="mb-10 lg:mb-8">
+              <div class="row max-lg:gy-4 justify-start lg:justify-end">
+                {
+                  menu.footer.map((menu) => (
+                    <div class="col-6 md:col-6 lg:col-3 pr-0">
+                      <h5 class="mb-7 font-medium text-base lg:mb-6">
+                        {menu.title}
+                      </h5>
+                      <ul>
+                        {menu.children.map((child) => (
+                          <li
+                            class="mb-4 text-text text-base hover:text-primary
+                          "
+                          >
+                            <a href={child.url}>{child.name}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="text-center text-sm pt-8 pb-14 pb border-t border-border flex flex-col md:flex-row gap-y-6 justify-between"
+        >
+          {
+            config.params.copyright && (
+              <p
+                class="[&>a]:underline text-text"
+                set:html={markdownify(replaceYear(copyright))}
+              />
+            )
+          }
+
+          <Social source={social.main} className="social-icons" />
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

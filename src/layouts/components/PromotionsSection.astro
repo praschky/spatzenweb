@@ -1,0 +1,122 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import Counter from "../functional-component/Counter";
+import ImageMod from "./ImageMod.astro";
+import TitleBadge from "./TitleBadge.astro";
+
+type Props = {
+  promotions: CollectionEntry<"homepage">["data"]["promotions"];
+};
+
+const { promotions } = Astro.props;
+---
+
+{
+  promotions?.enable && (
+    <section class="section p-0">
+      <div class="container">
+        {/* section title  */}
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+          class="row justify-center"
+        >
+          <div class="col-10 lg:col-7">
+            {promotions?.badge.enable && (
+              <TitleBadge
+                icon={promotions!.badge.icon}
+                label={promotions?.badge.label}
+                bg_color={promotions?.badge.bg_color}
+              />
+            )}
+
+            <h2
+              class="py-4 text-center"
+              set:html={markdownify(promotions?.title || "")}
+            />
+            <p
+              class="text-center text-balance"
+              set:html={promotions?.description || ""}
+            />
+          </div>
+        </div>
+
+        <div
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+          class="metrics-cards metrics-cards--pair pt-14"
+        >
+          {promotions?.cards &&
+            promotions?.cards.length > 0 &&
+            promotions?.cards.map((card) => (
+              <div class="card">
+                <p
+                  class={`h2 font-semibold text-white leading-tight xl:whitespace-nowrap`}
+                >
+                  {card.display_heading ? (
+                    card.display_heading
+                  ) : (
+                    <Counter
+                      client:only="react"
+                      count={card.counter.count}
+                      suffix={card.counter.count_suffix}
+                      prefix={card.counter.count_prefix}
+                      duration={card.counter.count_duration}
+                    />
+                  )}
+                </p>
+
+                <h6
+                  class={`text-base sm:text-lg font-medium tracking-wide text-white pb-8 pt-2 leading-snug xl:whitespace-nowrap`}
+                  set:html={markdownify(card?.title || "")}
+                />
+
+                <ul class="text-center lg:text-left">
+                  {card?.list.map((item) => (
+                    <li class="w-full">
+                      <div class="mx-auto lg:mx-0 w-fit bg-body text-dark text-sm font-medium px-4 py-px rounded-full mb-px z-20 break-words text-wrap">
+                        {item}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-auto pt-8 max-lg:mx-auto">
+                  {card.button.enable && (
+                    <a
+                      class="btn btn-icon"
+                      href={card.button.link}
+                      aria-label={"External Link Button"}
+                    >
+                      <span class="icon-wrapper">
+                        <span class="icon">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                        <span class="icon" aria-hidden="true">
+                          <DynamicIcon icon={"FaArrowRight"} />
+                        </span>
+                      </span>
+                    </a>
+                  )}
+                </div>
+
+                {card.image && (
+                  <ImageMod
+                    src={card.image}
+                    alt={card.title}
+                    class="absolute bottom-0 right-0 -z-10 max-h-[240px] w-auto max-w-[min(100%,280px)] object-cover object-right-bottom"
+                    width={480}
+                    height={360}
+                    format="webp"
+                    fit="cover"
+                  />
+                )}
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
+  )
+}

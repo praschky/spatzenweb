@@ -1,0 +1,118 @@
+---
+import TeamCard from "@/components/TeamCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import CallToActionPrimary from "@/partials/CallToActionPrimary.astro";
+import FAQs from "@/partials/FAQs.astro";
+import FeaturesSection from "@/partials/FeaturesSection.astro";
+
+const teamsIndex = await getListPage(
+  "teams",
+  "-index"
+);
+if(teamsIndex.data.draft){
+  return Astro.redirect("/404");
+}
+
+const { badge, title, description, team_1, team_2 } = teamsIndex.data;
+
+const teams = await getSinglePage("teams");
+const leadTeam = teams.filter((member) => member.data.isLeadTeam);
+const otherTeam = teams.filter((member) => !member.data.isLeadTeam);
+---
+
+<Base {...teamsIndex.data}>
+  <section class="section-lg">
+    <div class="container">
+      {/* Section Title */}
+      <div
+        data-aos="fade-up-sm"
+        data-aos-delay="100"
+        class="row justify-center"
+      >
+        <div class="col-10 lg:col-6">
+          {
+            badge && badge.enable && (
+              <TitleBadge
+                icon={badge.icon}
+                label={badge.label}
+                bg_color={badge.bg_color}
+              />
+            )
+          }
+          <h2 class="py-4 text-center" set:html={markdownify(title || "")} />
+          <p
+            class="text-center text-balance"
+            set:html={markdownify(description || "")}
+          />
+        </div>
+      </div>
+
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="pt-16">
+        {
+          team_1?.title && (
+            <h2
+              class="h4 font-semibold mb-2"
+              set:html={markdownify(team_1?.title)}
+            />
+          )
+        }
+
+        {
+          team_1?.description && (
+            <p
+              class="mb-10 text-balance"
+              set:html={markdownify(team_1?.description)}
+            />
+          )
+        }
+
+        <div class="row g-4">
+          {
+            leadTeam?.map((member, i) => (
+              <div class="col-10 sm:col-6 lg:col-4 max-md:mx-auto">
+                <TeamCard member={member.data} index={i} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="pt-16">
+        {
+          team_2?.title && (
+            <h2
+              class="h4 font-semibold mb-2"
+              set:html={markdownify(team_2?.title)}
+            />
+          )
+        }
+
+        {
+          team_2?.description && (
+            <p
+              class="mb-10 text-balance"
+              set:html={markdownify(team_2?.description)}
+            />
+          )
+        }
+
+        <div class="row g-4">
+          {
+            otherTeam?.map((member, i) => (
+              <div class="col-10 sm:col-6 md:col-4 lg:col-3 max-md:mx-auto">
+                <TeamCard member={member.data} index={i} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FeaturesSection />
+  <CallToActionPrimary isNoSectionTop={true} />
+  <FAQs />
+</Base>

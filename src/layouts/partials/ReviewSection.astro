@@ -1,0 +1,46 @@
+---
+import ReviewCard from "@/components/ReviewCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const reviewsSection = await getListPage("reviewsSection", "reviews-section");
+
+if (!reviewsSection.data.enable) {
+  return null;
+}
+
+const { title, description, badge, reviews } = reviewsSection.data;
+---
+
+<section class="section py-0">
+  <div class="container">
+    {/* Section title */}
+    <div data-aos="fade-up-sm" data-aos-delay="150" class="row justify-center">
+      <div class="col-10 lg:col-7">
+        {badge.enable && <TitleBadge {...badge} />}
+
+        {title && <h2 class="py-4 text-center" set:html={markdownify(title)} />}
+
+        {
+          description && (
+            <p
+              class="text-center text-balance"
+              set:html={markdownify(description)}
+            />
+          )
+        }
+      </div>
+    </div>
+
+    <div class="pt-14">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 h-auto">
+        {
+          reviews
+            ?.slice(0, 6)
+            .map((review, i) => <ReviewCard review={review} index={i} />)
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+---
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { markdownify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+
+export function getBackgroundClass(i: number): string {
+  // Background class pattern
+  const bgCycle = [
+    "bg-secondary",
+    "bg-tertiary/70",
+    "bg-primary",
+    "bg-primary",
+    "bg-secondary",
+    "bg-tertiary/70",
+  ];
+  return bgCycle[i % bgCycle.length];
+}
+
+type Props = {
+  features: CollectionEntry<"featuresSection">["data"]["features"];
+};
+
+const { features } = Astro.props;
+---
+
+<div data-aos="fade-up-sm" data-aos-delay="200" class="pt-14">
+  <div class="border-t border-l rounded-2xl border-border overflow-hidden">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3">
+      {
+        features.length > 0 &&
+          features.map((feature, i) => {
+            const bgClass = getBackgroundClass(i);
+
+            return (
+              <div
+                class={`flex flex-col items-center text-center px-10 py-12 border-r w-full border-b border-border min-h-full`}
+              >
+                <div class={`mx-auto p-2 rounded-xl ${bgClass} mb-6`}>
+                  <DynamicIcon
+                    icon={feature.icon}
+                    className="text-white text-xl"
+                  />
+                </div>
+
+                <h6
+                  class="font-medium"
+                  set:html={markdownify(feature.title || "")}
+                />
+                <p
+                  class="mt-3 mb-6"
+                  set:html={markdownify(feature.description || "")}
+                />
+
+                {feature.button.enable && (
+                  <a
+                    class="btn btn-outline w-full mt-auto"
+                    href={feature.button.link}
+                  >
+                    {feature.button.label}
+                  </a>
+                )}
+              </div>
+            );
+          })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .grid > div:last-child {
+    border-bottom-right-radius: 1rem;
+  }
+  .grid > div:nth-last-child(3):nth-child(3n) {
+    border-bottom-left-radius: 1rem;
+  }
+</style>

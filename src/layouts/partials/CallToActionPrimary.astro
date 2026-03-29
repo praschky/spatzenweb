@@ -1,0 +1,116 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import DynamicIcon from "@/helpers/DynamicIcon";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+import VideoPlayer from "../functional-component/VideoPlayer";
+
+const call_to_action = await getListPage(
+  "ctaPrimarySection",
+  "call-to-action-primary"
+);
+if (!call_to_action.data.enable) {
+  return null;
+}
+const { isNoSectionTop = false } = Astro.props;
+const hasDialogues =
+  (call_to_action.data.dialogues?.length ?? 0) > 0;
+const hasMediaExtras = call_to_action.data.media_section.enable;
+const showExtrasRow = hasDialogues || hasMediaExtras;
+---
+
+<section class={`section ${isNoSectionTop && "pt-0"}`}>
+  <div class="container">
+    <div
+      class="bg-[url(/images/homepage/cta-bg-1.png)] bg-cover rounded-4xl overflow-hidden xl:bg-contain bg-center bg-no-repeat relative"
+    >
+      <div class="px-7 py-9 lg:py-14 lg:px-14">
+        <div class="row justify-center lg:justify-between relative z-20">
+          <div class="col-11 lg:col-5">
+            <h3
+              class="mb-15 max-lg:text-center"
+              set:html={markdownify(call_to_action.data.title)}
+            />
+            <div class="space-y-5">
+              {
+                call_to_action.data.facts.map((fact, i) => (
+                  <div
+                    data-aos="zoom-in-sm"
+                    data-aos-delay={i * 150 + 50}
+                    class="bg-body rounded-[28px] p-6"
+                  >
+                    <div class="flex items-start sm:items-center gap-2 mb-3">
+                      <DynamicIcon
+                        icon={fact.icon}
+                        className="inline text-text-dark text-xl"
+                      />
+                      <h6
+                        class="font-semibold"
+                        set:html={markdownify(fact.title)}
+                      />
+                    </div>
+                    <p
+                      class="text-sm font-semibold"
+                      set:html={markdownify(fact.content)}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="lg:col-7 ml-auto flex flex-col">
+            <p
+              class="text-balance font-medium text-dark text-center lg:text-right max-lg:mt-10"
+              set:html={markdownify(call_to_action.data.description)}
+            />
+
+            {
+              showExtrasRow && (
+                <div class="flex flex-col lg:flex-row max-lg:items-center justify-between max-lg:gap-y-6 pt-16">
+                  {hasMediaExtras && (
+                    <VideoPlayer
+                      video={{
+                        ...call_to_action.data.media_section,
+                        isAbsolute: false,
+                      }}
+                      client:only="react"
+                    />
+                  )}
+
+                  {hasDialogues && (
+                    <ul class="text-center lg:text-left -space-y-1.5">
+                      {call_to_action.data.dialogues!.map((item, i) => (
+                        <li
+                          data-aos="fade-up-sm"
+                          data-aos-delay={i * 200 + 100}
+                          class="w-full"
+                        >
+                          <span
+                            class="mx-auto lg:mx-0 w-max bg-body text-text-dark text-sm font-medium px-4 py-px rounded-full mb-px"
+                            set:html={markdownify(item)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )
+            }
+
+            <div class="mt-10 flex w-full shrink-0 justify-center lg:mt-12 lg:justify-end">
+              <ImageMod
+                class="max-w-[min(100%,624px)] w-full h-auto rounded-2xl lg:max-w-[552px]"
+                src={call_to_action.data.image}
+                alt="cta-image"
+                width={864}
+                height={667}
+                fit="cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

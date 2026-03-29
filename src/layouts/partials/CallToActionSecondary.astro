@@ -1,0 +1,74 @@
+---
+import ImageMod from "@/components/ImageMod.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const call_to_action = await getListPage(
+  "ctaSecondarySection",
+  "call-to-action-secondary"
+);
+if (!call_to_action.data.enable) {
+  return null;
+}
+const { title, image, description, buttons } = call_to_action.data;
+
+const { isNoSectionTop = false } = Astro.props;
+---
+
+<section
+  data-aos="fade-up-sm"
+  data-aos-delay={"150"}
+  class={`section ${isNoSectionTop && "pt-0"}`}
+>
+  <div class="container">
+    <div
+      class="relative px-14 pt-18 pb-10 lg:pb-14 bg-[url(/images/homepage/cta-bg-2.png)] bg-cover bg-center bg-no-repeat rounded-4xl overflow-hidden text-white/90"
+    >
+      <div class="relative z-20">
+        <h3
+          class="mb-4 text-center text-white"
+          set:html={markdownify(title || "")}
+        />
+        <p
+          class="font-semibold text-center"
+          set:html={markdownify(description || "")}
+        />
+
+        <ul class="flex flex-wrap justify-center gap-4 mt-6">
+          {
+            buttons?.map((button, i) =>
+              button.enable ? (
+                <li>
+                  <a
+                    class={`btn ${i % 2 === 0 ? "btn-primary" : "btn-outline"}`}
+                    href={button.link}
+                  >
+                    {button.label}
+                  </a>
+                </li>
+              ) : null
+            )
+          }
+        </ul>
+      </div>
+
+      {/* Circle Background */}
+      <div
+        class="absolute top-[85%] lg:top-[70%] left-1/2 -translate-x-1/2 z-0 rounded-full bg-body/30"
+        style="width: 90%; padding-bottom: 90%;"
+      >
+      </div>
+
+      {/* CTA Image */}
+      <ImageMod
+        class="relative z-10 mx-auto mt-10 lg:mt-12 max-w-[min(100%,600px)] w-full"
+        src={image!}
+        alt="cta"
+        width={600}
+        height={463}
+        loading={"lazy"}
+        format="webp"
+      />
+    </div>
+  </div>
+</section>

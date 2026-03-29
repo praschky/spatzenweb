@@ -1,0 +1,89 @@
+---
+// English experiences page – /en/experiences
+import ReviewCard from "@/components/ReviewCard.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
+
+const reviewsSection = await getListPage("reviewsSection", "reviews-section");
+---
+
+<Base
+  title="Experiences – Spatzenschule Melbourne"
+  meta_title="Family Experiences – Spatzenschule Melbourne"
+  description="Read what parents and students share about their time at Spatzenschule Melbourne – real stories from families in our community."
+>
+  <section class="section-lg">
+    <div class="container">
+      <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+        <div class="col-10 lg:col-6">
+          <TitleBadge
+            icon="FaComments"
+            label="Experiences"
+            bg_color="bg-secondary"
+          />
+          <h2 class="py-4 text-center">What Families Say</h2>
+          <p class="text-center text-balance">
+            Read what parents and students share about their time at Spatzenschule Melbourne.
+          </p>
+        </div>
+      </div>
+
+      {reviewsSection.data.enable && (
+        <div class="pt-14">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 h-auto">
+            {
+              reviewsSection.data?.reviews?.map((review, i) => (
+                <ReviewCard review={review} index={i} />
+              ))
+            }
+          </div>
+        </div>
+      )}
+
+      <!-- Extended testimonials -->
+      <div class="pt-16 row justify-center">
+        <div class="lg:col-9">
+          <div class="content">
+            <h2>Stories from Our Families</h2>
+
+            <h3>The M. Family – Now back in Germany</h3>
+            <p>
+              Our two children (aged 5 and 7 at the time) arrived in Australia with no English.
+              Both attended Toorak Primary School and Spatzenschule at the same time.
+            </p>
+            <p>
+              "The children are made to feel that, despite the initial language barrier, they are
+              not a burden but an asset. Spatzenschule provides almost like an
+              <em>'island in the school day'</em> – a place of security and support."
+            </p>
+            <p>
+              Direct integration into Australian classrooms proved far more effective than
+              attending a language school. The long lunch break (1 hour) helped enormously
+              with language acquisition.
+            </p>
+
+            <h3>Martina O. – Teacher trained in Germany</h3>
+            <p>
+              "The Australian school system is much more relaxed and less stressful" than the German one.
+            </p>
+            <p>
+              In the German system: 45-minute lessons, a rush to complete the curriculum by 1:30 pm.
+              In the Australian system: 5 hours of teaching (equivalent to 6 German lessons),
+              school finishing at 3:30 pm. Extended breaks (11:00–11:30 am; 1:00–2:00 pm)
+              allow for play and rest.
+            </p>
+            <p>
+              The teaching approach is varied, child-friendly and less pressured. The overall
+              curriculum is comparable – the Australian delivery is simply
+              <em>"less stressful"</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CallToActionSecondary isNoSectionTop />
+</Base>

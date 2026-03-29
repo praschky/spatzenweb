@@ -1,0 +1,42 @@
+---
+import Features from "@/components/Features.astro";
+import TitleBadge from "@/components/TitleBadge.astro";
+import { getListPage } from "@/lib/contentParser.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const featuresSection = await getListPage(
+  "featuresSection",
+  "features-section"
+);
+if (!featuresSection.data.enable) {
+  return null;
+}
+
+const { title, description, badge, features } = featuresSection.data;
+---
+
+<section class="section pt-0 overflow-hidden">
+  <div class="container">
+    {/* Section Title */}
+    <div data-aos="fade-up-sm" data-aos-delay="100" class="row justify-center">
+      <div class="col-10 lg:col-6">
+        {
+          badge.enable && (
+            <TitleBadge
+              icon={badge.icon}
+              label={badge.label}
+              bg_color={badge.bg_color}
+            />
+          )
+        }
+        <h2 class="py-4 text-center" set:html={markdownify(title || "")} />
+        <p
+          class="text-center text-balance"
+          set:html={markdownify(description || "")}
+        />
+      </div>
+    </div>
+
+    <Features features={features} />
+  </div>
+</section>
