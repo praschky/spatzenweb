@@ -1,10 +1,16 @@
 ---
 import DynamicIcon from "@/helpers/DynamicIcon";
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import TitleBadge from "./TitleBadge.astro";
 
-const successNumbers = await getListPage("successNumbers", "success-numbers");
+const lang = getLangFromUrl(Astro.url);
+const successNumbers = await getListPageForLang(
+  "successNumbers",
+  "success-numbers",
+  lang
+);
 if (!successNumbers.data.enable) {
   return null;
 }

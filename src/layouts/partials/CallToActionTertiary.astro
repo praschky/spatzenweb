@@ -1,10 +1,13 @@
 ---
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
-const call_to_action = await getListPage(
+const lang = getLangFromUrl(Astro.url);
+const call_to_action = await getListPageForLang(
   "ctaTertiary",
-  "call-to-action-tertiary"
+  "call-to-action-tertiary",
+  lang
 );
 if (!call_to_action.data.enable) {
   return null;

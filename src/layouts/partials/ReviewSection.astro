@@ -1,10 +1,16 @@
 ---
 import ReviewCard from "@/components/ReviewCard.astro";
 import TitleBadge from "@/components/TitleBadge.astro";
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
-const reviewsSection = await getListPage("reviewsSection", "reviews-section");
+const lang = getLangFromUrl(Astro.url);
+const reviewsSection = await getListPageForLang(
+  "reviewsSection",
+  "reviews-section",
+  lang
+);
 
 if (!reviewsSection.data.enable) {
   return null;

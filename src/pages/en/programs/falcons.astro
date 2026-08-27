@@ -3,16 +3,16 @@
 import ImageMod from "@/components/ImageMod.astro";
 import TitleBadge from "@/components/TitleBadge.astro";
 import Base from "@/layouts/Base.astro";
-import { getSinglePage } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import CallToActionQuaternary from "@/partials/CallToActionQuaternary.astro";
 import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
 import FAQs from "@/partials/FAQs.astro";
 import NumbersBanner from "@/partials/NumbersBanner.astro";
-import { render } from "astro:content";
+import { getEntry, render } from "astro:content";
 
-const programs = await getSinglePage("programs");
-const program = programs.find((p) => p.id === "falkenprogramm")!;
+const program =
+  (await getEntry("programs", "falkenprogramm-en")) ??
+  (await getEntry("programs", "falkenprogramm"))!;
 const { title, image, badge, numbers_banner, button } = program.data;
 const { Content } = await render(program);
 

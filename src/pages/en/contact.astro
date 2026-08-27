@@ -10,7 +10,7 @@ import { markdownify } from "@/lib/utils/textConverter";
 import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
 import FAQs from "@/partials/FAQs.astro";
 
-const contactIndex = await getListPage("contact", "-index");
+const contactIndex = await getListPage("contact", "-index-en");
 const { contact_form_action }: { contact_form_action: string } = config.params;
 const { cta_banners, contact_form_intro } = contactIndex.data;
 ---

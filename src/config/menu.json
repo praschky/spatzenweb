@@ -81,6 +81,55 @@
       "url": "/en/contact"
     }
   ],
+  "footer_en": [
+    {
+      "title": "Programs",
+      "children": [
+        {
+          "name": "Sparrows Program",
+          "url": "/en/programs/sparrows"
+        },
+        {
+          "name": "Falcons Program",
+          "url": "/en/programs/falcons"
+        },
+        {
+          "name": "Enrolment",
+          "url": "/en/enrolment"
+        }
+      ]
+    },
+    {
+      "title": "Information",
+      "children": [
+        {
+          "name": "About Us",
+          "url": "/en/about"
+        },
+        {
+          "name": "Calendar & News",
+          "url": "/en/calendar"
+        },
+        {
+          "name": "Experiences",
+          "url": "/en/experiences"
+        }
+      ]
+    },
+    {
+      "title": "Guidelines & Contact",
+      "children": [
+        {
+          "name": "School Guidelines",
+          "url": "/en/guidelines"
+        },
+        {
+          "name": "Contact",
+          "url": "/en/contact"
+        }
+      ]
+    }
+  ],
   "footer": [
     {
       "title": "Programme",

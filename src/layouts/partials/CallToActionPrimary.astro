@@ -1,13 +1,16 @@
 ---
 import ImageMod from "@/components/ImageMod.astro";
 import DynamicIcon from "@/helpers/DynamicIcon";
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import VideoPlayer from "../functional-component/VideoPlayer";
 
-const call_to_action = await getListPage(
+const lang = getLangFromUrl(Astro.url);
+const call_to_action = await getListPageForLang(
   "ctaPrimarySection",
-  "call-to-action-primary"
+  "call-to-action-primary",
+  lang
 );
 if (!call_to_action.data.enable) {
   return null;

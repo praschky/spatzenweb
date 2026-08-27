@@ -1,10 +1,12 @@
 ---
 import TitleBadge from "@/components/TitleBadge.astro";
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import Accordion from "@/shortcodes/Accordion";
 
-const faqs = await getListPage("faqsSection", "faqs");
+const lang = getLangFromUrl(Astro.url);
+const faqs = await getListPageForLang("faqsSection", "faqs", lang);
 if (!faqs.data.enable) {
   return null;
 }

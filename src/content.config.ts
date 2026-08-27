@@ -481,7 +481,7 @@ const pagesCollection = defineCollection({
 // primary CTA Section
 const ctaPrimarySectionCollection = defineCollection({
   loader: glob({
-    pattern: "call-to-action-primary.{md,mdx}",
+    pattern: "call-to-action-primary{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -508,7 +508,7 @@ const ctaPrimarySectionCollection = defineCollection({
 // call to action secondary collection schema
 const ctaSecondarySectionCollection = defineCollection({
   loader: glob({
-    pattern: "call-to-action-secondary.{md,mdx}",
+    pattern: "call-to-action-secondary{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -542,7 +542,7 @@ const ctaSecondarySectionCollection = defineCollection({
 // Call to Action Tertiary collection schema
 const ctaTertiaryCollection = defineCollection({
   loader: glob({
-    pattern: "call-to-action-tertiary.{md,mdx}",
+    pattern: "call-to-action-tertiary{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -561,7 +561,7 @@ const ctaTertiaryCollection = defineCollection({
 // quaternary CTA Section
 const ctaQuaternarySectionCollection = defineCollection({
   loader: glob({
-    pattern: "call-to-action-quaternary.{md,mdx}",
+    pattern: "call-to-action-quaternary{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -580,7 +580,7 @@ const ctaQuaternarySectionCollection = defineCollection({
 // success numbers section
 const successNumbersCollection = defineCollection({
   loader: glob({
-    pattern: "success-numbers.{md,mdx}",
+    pattern: "success-numbers{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -607,7 +607,7 @@ const successNumbersCollection = defineCollection({
 // features section collection
 const featuresSectionCollection = defineCollection({
   loader: glob({
-    pattern: "features-section.{md,mdx}",
+    pattern: "features-section{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -638,7 +638,7 @@ const featuresSectionCollection = defineCollection({
 // review collections schema
 const reviewsSectionCollection = defineCollection({
   loader: glob({
-    pattern: "reviews-section.{md,mdx}",
+    pattern: "reviews-section{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -666,7 +666,7 @@ const reviewsSectionCollection = defineCollection({
 
 // FAQs section
 const faqsSectionCollection = defineCollection({
-  loader: glob({ pattern: "faqs.{md,mdx}", base: "src/content/sections" }),
+  loader: glob({ pattern: "faqs{,-en}.{md,mdx}", base: "src/content/sections" }),
   schema: z.object({
     enable: z.boolean(),
     title: z.string().optional(),
@@ -689,7 +689,7 @@ const faqsSectionCollection = defineCollection({
 // Programs Homepage section schema
 const programsHomepageCollection = defineCollection({
   loader: glob({
-    pattern: "programs-homepage-section.{md,mdx}",
+    pattern: "programs-homepage-section{,-en}.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({

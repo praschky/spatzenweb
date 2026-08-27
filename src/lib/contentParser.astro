@@ -20,7 +20,7 @@ export const getSinglePage = async <C extends CollectionKey>(
   const allPages = await getCollection(
     collectionName,
     ({ data, id }: CollectionEntry<C>) =>
-      !(data as PageData)?.draft && !id.startsWith("-")
+      !(data as PageData)?.draft && !id.startsWith("-") && !id.endsWith("-en")
   );
   return allPages;
 };
@@ -41,5 +41,22 @@ export const getListPage = async <C extends CollectionKey>(
   }
 
   return data;
+};
+
+// Language-aware entry lookup: for "en", prefer the "<id>.en" variant and
+// fall back to the German entry when no translation exists.
+export const getListPageForLang = async <C extends CollectionKey>(
+  collectionName: C,
+  documentId: "-index" | string,
+  lang: "de" | "en"
+): Promise<CollectionEntry<C>> => {
+  if (lang === "en") {
+    const enEntry = (await getEntry(
+      collectionName,
+      `${documentId}-en`
+    )) as CollectionEntry<C> | null;
+    if (enEntry) return enEntry;
+  }
+  return getListPage(collectionName, documentId);
 };
 ---

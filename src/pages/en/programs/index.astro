@@ -4,21 +4,33 @@ import ImageMod from "@/components/ImageMod.astro";
 import TitleBadge from "@/components/TitleBadge.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { getEntry, type CollectionEntry } from "astro:content";
 import { markdownify } from "@/lib/utils/textConverter";
 import CallToActionSecondary from "@/partials/CallToActionSecondary.astro";
 import FAQs from "@/partials/FAQs.astro";
 import NumbersBanner from "@/partials/NumbersBanner.astro";
 
 const FOLDER = "programs";
-const programsIndex = await getListPage(FOLDER, "-index");
+const programsIndex = await getListPage(FOLDER, "-index-en");
 const { numbers_banner } = programsIndex.data;
-const programs = await getSinglePage(FOLDER);
+// Prefer the English variant of each program when one exists
+const programsDe = await getSinglePage(FOLDER);
+const programs: CollectionEntry<"programs">[] = await Promise.all(
+  programsDe.map(
+    async (p: CollectionEntry<"programs">) =>
+      (await getEntry(FOLDER, `${p.id}-en`)) ?? p
+  )
+);
 const featuredProgram = programs.filter((p) => p?.data?.featured).slice(0, 1);
 
-// English slug map: content id → English URL slug
+// English slug map: content id (without .en suffix) → English URL slug
 const enSlugMap: Record<string, string> = {
   spatzenprogramm: "sparrows",
   falkenprogramm: "falcons",
+};
+const enSlug = (id: string) => {
+  const baseId = id.replace(/-en$/, "");
+  return enSlugMap[baseId] ?? baseId;
 };
 ---
 
@@ -89,7 +101,7 @@ const enSlugMap: Record<string, string> = {
                   )}
                   <a
                     class="btn btn-primary my-8"
-                    href={`/en/programs/${enSlugMap[program.id] ?? program.id}`}
+                    href={`/en/programs/${enSlug(program.id)}`}
                     rel="noopener"
                   >
                     View Program
@@ -121,10 +133,10 @@ const enSlugMap: Record<string, string> = {
           {
             programs?.map((program, i) => {
               const aosDelay = 100 * (i % 3);
-              const enSlug = enSlugMap[program.id] ?? program.id;
+              const programSlug = enSlug(program.id);
               return (
                 <div class="md:col-6 lg:col-4" data-aos="fade-up-sm" data-aos-delay={aosDelay}>
-                  <a href={`/en/programs/${enSlug}`} class="block group">
+                  <a href={`/en/programs/${programSlug}`} class="block group">
                     <div class="rounded-2xl overflow-hidden bg-dark/2">
                       <ImageMod
                         src={program.data.image!}

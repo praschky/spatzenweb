@@ -1,12 +1,15 @@
 ---
 import Features from "@/components/Features.astro";
 import TitleBadge from "@/components/TitleBadge.astro";
-import { getListPage } from "@/lib/contentParser.astro";
+import { getLangFromUrl } from "@/i18n/ui";
+import { getListPageForLang } from "@/lib/contentParser.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
-const featuresSection = await getListPage(
+const lang = getLangFromUrl(Astro.url);
+const featuresSection = await getListPageForLang(
   "featuresSection",
-  "features-section"
+  "features-section",
+  lang
 );
 if (!featuresSection.data.enable) {
   return null;
